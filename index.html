@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Multiverse Mart | Hero Merchandise Store</title>
+<title>Multiverse Mart | Real Hero Gear Store</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Archivo:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -121,7 +121,6 @@ header{background:var(--red);border-bottom:var(--panel-border);position:sticky;t
 .card-body h3 a{text-decoration:none}
 .tag{font-size:.78rem;font-weight:800;padding:2px 8px;border:2px solid var(--ink);align-self:flex-start;color:#fff}
 .price{font-family:var(--display);font-size:1.7rem}
-.mrp{text-decoration:line-through;opacity:.55;font-size:.95rem;margin-left:6px;font-family:var(--body)}
 .card-actions{display:flex;gap:8px;margin-top:auto}
 .card-actions .btn{font-size:1.05rem;padding:6px 12px;flex:1}
 .badge-sale{
@@ -166,6 +165,8 @@ header{background:var(--red);border-bottom:var(--panel-border);position:sticky;t
 .cart-item .thumb svg{width:100%;height:100%;display:block}
 .remove{background:none;border:none;color:var(--red);font-weight:800;cursor:pointer;text-decoration:underline;margin-top:6px}
 .summary{padding:22px;position:sticky;top:96px}
+.pay-col{position:sticky;top:96px}
+.pay-col .summary{position:static}
 .row{display:flex;justify-content:space-between;padding:6px 0}
 .row.total{border-top:3px solid var(--ink);margin-top:8px;padding-top:12px;font-family:var(--display);font-size:1.7rem}
 .coupon{display:flex;gap:8px;margin:14px 0}
@@ -201,6 +202,21 @@ header{background:var(--red);border-bottom:var(--panel-border);position:sticky;t
 .upi-apps .opt{flex:1;min-width:100px;text-align:center}
 .qr{width:150px;height:150px;border:3px solid var(--ink);margin:10px 0;background:#fff}
 .cod-note{padding:14px;border:3px dashed var(--ink);background:var(--paper)}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:18px;margin-bottom:48px}
+.cat-tile{display:flex;flex-direction:column;text-decoration:none;color:var(--ink)}
+.cat-tile .art{display:block;aspect-ratio:1;border-bottom:var(--panel-border)}
+.cat-tile .art svg{width:100%;height:100%;display:block}
+.cat-tile strong{font-family:var(--display);font-weight:400;font-size:1.35rem;letter-spacing:1px;padding:10px 12px 0}
+.cat-tile small{padding:0 12px 12px}
+.pay-hint{font-weight:800;font-size:.92rem;margin:-4px 0 10px}
+.restricted{padding:12px 14px;border:3px solid var(--ink);background:var(--yellow);font-weight:800;margin:4px 0 18px}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:800;margin-top:14px;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:2px;flex-shrink:0}
+.emi-plans{display:grid;gap:10px}
+.emi-plan{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px;border:3px solid var(--ink);background:var(--white);cursor:pointer}
+.emi-plan:has(input:checked){background:var(--yellow)}
+.emi-plan strong{font-family:var(--display);font-weight:400;font-size:1.3rem}
+.filters label{display:block;padding:3px 0}
 
 /* ============ OVERLAY / SUCCESS ============ */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:grid;place-items:center;z-index:100;padding:20px}
@@ -217,9 +233,10 @@ header{background:var(--red);border-bottom:var(--panel-border);position:sticky;t
 .toast{
   position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(150%);
   background:var(--white);border:3px solid var(--ink);border-radius:26px;padding:12px 22px;font-weight:800;
-  box-shadow:5px 5px 0 var(--ink);transition:transform .25s;z-index:120;max-width:90vw
+  box-shadow:5px 5px 0 var(--ink);transition:transform .25s,opacity .25s,visibility .25s;z-index:120;max-width:90vw;
+  opacity:0;visibility:hidden
 }
-.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
 .burst{
   position:fixed;pointer-events:none;z-index:130;font-family:var(--display);font-size:2.4rem;
   color:var(--yellow);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--red);
@@ -238,7 +255,7 @@ footer .logo{font-size:1.6rem;display:inline-block;margin-bottom:8px}
 @media (max-width:860px){
   .splash,.shop,.pdp,.two-col{grid-template-columns:1fr}
   .splash-main{grid-row:auto}
-  .filters,.summary{position:static}
+  .filters,.summary,.pay-col{position:static}
   .form-grid{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){
@@ -265,11 +282,12 @@ footer .logo{font-size:1.6rem;display:inline-block;margin-bottom:8px}
   <div class="wrap foot">
     <div>
       <span class="logo">Multiverse Mart</span>
-      <p>Gear inspired by the heroes you grew up with.</p>
+      <p>Real gear from the heroes' world.</p>
     </div>
     <div>
       <p>Buy any 3 items, get flat 15% off</p>
       <p>Free delivery · 7-day returns · Secure payments</p>
+      <p>Weapons and cosmic artifacts ship only to registered heroes</p>
       <p style="opacity:.6;margin-top:8px">Academic e-commerce project by Group Spidey. Not affiliated with any studio or brand.</p>
     </div>
   </div>
@@ -282,112 +300,124 @@ footer .logo{font-size:1.6rem;display:inline-block;margin-bottom:8px}
    1. PRODUCT DATA  (edit names, prices, descriptions here)
    ========================================================= */
 const HEROES = {
-  "Spider-Man":       {color:"#E8262C", initial:"S"},
-  "Iron Man":         {color:"#B8860B", initial:"I"},
-  "Captain America":  {color:"#1C4CD1", initial:"C"},
-  "Thor":             {color:"#5A6B7B", initial:"T"},
-  "Hulk":             {color:"#1E9E4A", initial:"H"},
-  "Doctor Strange":   {color:"#E0701B", initial:"D"},
-  "Wolverine":        {color:"#E8B400", initial:"W"},
-  "Deadpool":         {color:"#9E1B1B", initial:"D"},
-  "X-Men":            {color:"#4A4A4A", initial:"X"},
-  "Guardians of the Galaxy": {color:"#3C8C5B", initial:"G"},
-  "Black Widow":      {color:"#2B2B2B", initial:"B"},
-  "Thanos":           {color:"#8A6A2F", initial:"T"},
-  "Avengers":         {color:"#7A1FA2", initial:"A"}
+  "Iron Man": {color:"#B8860B", initial:"I"},
+  "Spider-Man": {color:"#E8262C", initial:"S"},
+  "Ant-Man": {color:"#6B1D1D", initial:"A"},
+  "Black Panther": {color:"#2B2B2B", initial:"B"},
+  "Deadpool": {color:"#9E1B1B", initial:"D"},
+  "Falcon": {color:"#5A6B7B", initial:"F"},
+  "Captain America": {color:"#1C4CD1", initial:"C"},
+  "Thor": {color:"#3E5C76", initial:"T"},
+  "Black Widow": {color:"#444444", initial:"B"},
+  "Hawkeye": {color:"#5B2C83", initial:"H"},
+  "Loki": {color:"#1E7A46", initial:"L"},
+  "Star-Lord": {color:"#A0522D", initial:"S"},
+  "X-Men": {color:"#8C6D00", initial:"X"},
+  "Doctor Strange": {color:"#E0701B", initial:"D"},
+  "Thanos": {color:"#8A6A2F", initial:"T"},
+  "Avengers": {color:"#7A1FA2", initial:"A"},
+  "S.H.I.E.L.D.": {color:"#1B3A5C", initial:"S"}
 };
 
+const CATEGORIES = ["Suits & Armour", "Shields & Weapons", "Tech & Gadgets", "Mystic Arts", "Cosmic Artifacts", "Vehicles"];
+
 const PRODUCTS = [
-  {id:1, img:"images/xmen-cap.jpg", name:"X-Men Logo Snapback Cap", hero:"X-Men", cat:"Accessories", type:"cap", colors:["#4A4A4A","#E8262C"], price:899, mrp:1199, rating:4.5,
-   desc:"A structured two-tone snapback with an embroidered X-Men emblem on the front panel.",
-   features:["Adjustable snap closure","Embroidered front patch","One size fits most"]},
-  {id:2, img:"images/ironman-mug.jpg", name:"Iron Man Wall-Breaker Mug", hero:"Iron Man", cat:"Home", type:"mug", colors:["#B8860B","#E8262C"], price:799, mrp:999, rating:4.6,
-   desc:"A ceramic mug with a 3D sculpted Iron Man head bursting through a cracked-wall print.",
-   features:["350 ml ceramic","Hand-painted 3D accent","Gift-boxed"]},
-  {id:3, img:"images/avengers-cushion.jpg", name:"Avengers Assemble Cushion", hero:"Avengers", cat:"Home", type:"poster", colors:["#E8262C","#FFD000"], price:999, mrp:1299, rating:4.4,
-   desc:"A square cushion printed with a comic-panel grid of the core Avengers lineup.",
-   features:["40 x 40 cm","Soft-touch cotton cover","Concealed zip closure"]},
-  {id:4, img:"images/cap-shield-cushion.jpg", name:"Captain America Shield Cushion", hero:"Captain America", cat:"Home", type:"poster", colors:["#1C4CD1","#E8262C"], price:1099, mrp:1399, rating:4.7,
-   desc:"A round plush cushion shaped like the iconic star-spangled shield.",
-   features:["36 cm diameter","Velvet-touch fabric","Machine washable cover"]},
-  {id:5, img:"images/yelena-tee.jpg", name:"Yelena Belova Oversized Tee", hero:"Black Widow", cat:"Apparel", type:"tee", colors:["#2B2B2B","#FFFFFF"], price:1499, mrp:1999, rating:4.5, sizes:["S","M","L","XL"],
-   desc:"An oversized-fit white tee with a large back print of Yelena Belova.",
-   features:["100% combed cotton","Oversized drop-shoulder fit","Back and chest print"]},
-  {id:6, img:"images/spiderman-keychain.jpg", name:"Spider-Man Mask Keychain Duo", hero:"Spider-Man", cat:"Collectibles", type:"keychain", colors:["#9aa3ad","#E8262C"], price:599, mrp:799, rating:4.5,
-   desc:"A pair of die-cast Spider-Man mask keychains in antique silver and gold finishes.",
-   features:["Die-cast metal","Set of 2 finishes","Sturdy split ring"]},
-  {id:7, img:"images/infinity-gauntlet-lego.jpg", name:"Infinity Gauntlet Brick Set", hero:"Thanos", cat:"Collectibles", type:"figure", colors:["#8A6A2F","#FFD000"], price:8999, mrp:9999, rating:4.9,
-   desc:"A display-stand brick build of the gauntlet, with all six infinity stones in place.",
-   features:["Life-size scale build","Display stand included","590+ pieces"]},
-  {id:8, img:"images/sanctum-lego.jpg", name:"Sanctum Sanctorum Brick Set", hero:"Doctor Strange", cat:"Collectibles", type:"figure", colors:["#E0701B","#5B2C83"], price:15999, mrp:17999, rating:4.8,
-   desc:"A detailed brick-built townhouse model with a spinning window feature and minifigures.",
-   features:["Multi-level interior detail","Includes 5 minifigures","Display-ready base"]},
-  {id:9, img:"images/dailybugle-lego.jpg", name:"Daily Bugle Brick Tower", hero:"Spider-Man", cat:"Collectibles", type:"figure", colors:["#5A6B7B","#E8262C"], price:24999, mrp:27999, rating:4.9,
-   desc:"A tall brick-built skyscraper set recreating the Daily Bugle building with rooftop signage.",
-   features:["Over 3,700 pieces","Lit-up signage detail","Includes classic minifigures"]},
-  {id:10, img:"images/avengerstower-lego.jpg", name:"Avengers Tower Brick Set", hero:"Iron Man", cat:"Collectibles", type:"figure", colors:["#1C4CD1","#5A6B7B"], price:34999, mrp:37999, rating:4.9,
-   desc:"A large-scale brick recreation of Avengers Tower with a full team of minifigures and vehicles.",
-   features:["Museum-scale build","20+ minifigures","Interior and exterior detailing"]},
-  {id:11, img:"images/groot-plush.jpg", name:"Baby Groot Plush", hero:"Guardians of the Galaxy", cat:"Collectibles", type:"figure", colors:["#3C8C5B","#8A6A2F"], price:1299, mrp:1599, rating:4.8,
-   desc:"A soft plush of Baby Groot with embroidered bark texture and leaf details.",
-   features:["Super-soft plush fabric","32 cm tall","Embroidered facial detail"]},
-  {id:12, img:"images/hulk-plush.jpg", name:"Hulk Smash Plush", hero:"Hulk", cat:"Collectibles", type:"figure", colors:["#1E9E4A","#5B2C83"], price:1799, mrp:2199, rating:4.5,
-   desc:"An oversized muscular Hulk plush with torn purple trousers, ready to smash your shelf space.",
-   features:["Extra-large plush build","Embroidered muscle detailing","Soft huggable fabric"]},
-  {id:13, img:"images/ironman-plush.jpg", name:"Iron Man Buddy Plush", hero:"Iron Man", cat:"Collectibles", type:"figure", colors:["#B11D1D","#FFD000"], price:999, mrp:1299, rating:4.6,
-   desc:"A soft standing plush of Iron Man with stitched armour panel details.",
-   features:["30 cm tall","Soft plush fabric","Standing pose"]},
-  {id:14, img:"images/spiderman-plush.jpg", name:"Miles Morales Plush", hero:"Spider-Man", cat:"Collectibles", type:"figure", colors:["#1a1a2e","#E8262C"], price:999, mrp:1299, rating:4.7,
-   desc:"A sitting plush of the black-and-red Spider-Man suit with a big-eyed mask design.",
-   features:["Soft satin-finish fabric","Sitting pose","22 cm tall"]},
-  {id:15, img:"images/wolverine-figure.jpg", name:"Wolverine Collector Figure", hero:"Wolverine", cat:"Collectibles", type:"figure", colors:["#E8B400","#1C4CD1"], price:2499, mrp:2999, rating:4.7,
-   desc:"A hand-painted collector figure of Wolverine in his classic blue-and-yellow suit, claws extended.",
-   features:["Hand-painted finish","Detailed sculpt","Display base"]},
-  {id:16, img:"images/xmen-keychain.jpg", name:"X-Men Round Keychain", hero:"X-Men", cat:"Collectibles", type:"keychain", colors:["#4A4A4A","#1a1a1a"], price:499, mrp:699, rating:4.4,
-   desc:"A weighty antique-silver keychain stamped with the classic X-Men emblem.",
-   features:["Zinc alloy medallion","Antique silver finish","Sturdy keyring"]},
-  {id:17, img:"images/deadpool-wolverine-keychains.jpg", name:"Deadpool & Wolverine Keychain Set", hero:"Deadpool", cat:"Collectibles", type:"keychain", colors:["#9E1B1B","#E8B400"], price:699, mrp:899, rating:4.6,
-   desc:"A set of four rubber keychains featuring Deadpool and Wolverine in playful poses.",
-   features:["Set of 4 designs","Soft rubber finish","Sturdy keyrings"]},
-  {id:18, img:"images/deadpool-bottle.jpg", name:"Deadpool Steel Water Bottle", hero:"Deadpool", cat:"Accessories", type:"bottle", colors:["#9E1B1B","#1a1a1a"], price:1199, mrp:1499, rating:4.5,
-   desc:"A matte red-to-black ombre steel bottle with a printed Deadpool graphic and flip-top lid.",
-   features:["750 ml double-wall steel","Flip-top leakproof lid","Ombre matte finish"]},
-  {id:19, img:"images/deadpool-wolverine-mugs.jpg", name:"Deadpool & Wolverine Mug Duo", hero:"Deadpool", cat:"Home", type:"mug", colors:["#9E1B1B","#E8B400"], price:999, mrp:1299, rating:4.6,
-   desc:"A matching pair of matte black mugs with hand-painted Deadpool and Wolverine artwork.",
-   features:["Set of 2, 350 ml each","Matte black ceramic","Gift-boxed pair"]},
-  {id:20, img:"images/wolverine-tee.jpg", name:"Wolverine Graphic Tee", hero:"Wolverine", cat:"Apparel", type:"tee", colors:["#1a1a1a","#E8262C"], price:2999, mrp:3999, rating:4.6, sizes:["S","M","L","XL"],
-   desc:"An oversized black tee with a dramatic Wolverine graphic print across the front.",
-   features:["Heavyweight 240 GSM cotton","Oversized fit","Large front graphic print"]},
-  {id:21, img:"images/deadpool-backpack.jpg", name:"Deadpool Utility Backpack", hero:"Deadpool", cat:"Accessories", type:"bag", colors:["#9E1B1B","#1a1a1a"], price:2999, mrp:3699, rating:4.7,
-   desc:"A rugged utility backpack with a mask-eye flap design and multiple zip pockets.",
-   features:["Multiple utility pockets","Padded laptop sleeve","Water-resistant fabric"]},
-  {id:22, img:"images/deadpool-plush.jpg", name:"Deadpool Buddy Plush", hero:"Deadpool", cat:"Collectibles", type:"figure", colors:["#9E1B1B","#1a1a1a"], price:999, mrp:1299, rating:4.5,
-   desc:"A sitting Deadpool plush with fabric katana accessories in each hand.",
-   features:["Soft plush fabric","Sitting pose with katanas","22 cm tall"]},
-  {id:23, img:"images/deadpool-mask.jpg", name:"Deadpool Mask Replica", hero:"Deadpool", cat:"Collectibles", type:"figure", colors:["#9E1B1B","#1a1a1a"], price:3499, mrp:3999, rating:4.8,
-   desc:"A full-fabric wearable mask replica with a textured finish and display stand.",
-   features:["Wearable fabric construction","Textured faux-leather look","Includes display stand"]},
-  {id:24, img:"images/ironspider-figure.jpg", name:"Iron Spider Collector Figure", hero:"Spider-Man", cat:"Collectibles", type:"figure", colors:["#B11D1D","#E8B400"], price:12999, mrp:14999, rating:4.9,
-   desc:"A premium 1:6 scale Iron Spider figure in red-and-gold armour, boxed for display.",
-   features:["1:6 scale articulated figure","Metallic red-gold finish","Collector box packaging"]},
-  {id:25, img:"images/infinity-gauntlet-statue.jpg", name:"Infinity Gauntlet Statue", hero:"Thanos", cat:"Collectibles", type:"figure", colors:["#8A6A2F","#5B2C83"], price:8999, mrp:9999, rating:4.8,
-   desc:"A bronze-finish life-size display statue of the gauntlet with all infinity stones lit.",
-   features:["Bronze weathered finish","Display base included","Life-size scale"]},
-  {id:26, img:"images/thor-hammer.jpg", name:"Thor's Hammer Replica", hero:"Thor", cat:"Collectibles", type:"figure", colors:["#5A6B7B","#8A6A2F"], price:4999, mrp:5999, rating:4.8,
-   desc:"A weighted metal-finish Mjolnir replica with a leather wrist strap, mounted on a rock base.",
-   features:["Metal-finish resin build","Leather wrist strap","Rock-effect display base"]},
-  {id:27, img:"images/cap-shield-replica.jpg", name:"Captain America Shield Replica", hero:"Captain America", cat:"Collectibles", type:"figure", colors:["#1C4CD1","#E8262C"], price:5999, mrp:6999, rating:4.8,
-   desc:"A full-size wall-mountable shield replica with a distressed, battle-worn paint finish.",
-   features:["Full 60 cm diameter","Distressed paint finish","Wall-mount ready"]},
-  {id:28, img:"images/ironman-helmet.jpg", name:"Iron Man Helmet Replica", hero:"Iron Man", cat:"Collectibles", type:"figure", colors:["#B11D1D","#FFD000"], price:6999, mrp:7999, rating:4.7,
-   desc:"A wearable helmet replica with light-up eyes in the classic red-and-gold finish.",
-   features:["Light-up LED eyes","Adjustable inner strap","Display stand included"]}
+  {id:1, img:"gear/ironman-armour.jpg", name:"Iron Man Mark LXXXV Armour", hero:"Iron Man", cat:"Suits & Armour", type:"figure", colors:["#B8860B","#FFD000"], price:250000000, rating:4.9,
+    desc:"Tony Stark's final nanotech armour, stored in a housing unit worn on the chest and deployed in under two seconds. Built for flight, combat and deep-space missions. Photo shows the helmet; the full suit ships in its housing unit.",
+    features:["Nanotech shell deploys from the chest housing", "Repulsors, unibeam and FRIDAY AI assistant", "Self-repairing and self-fitting to any wearer"]},
+  {id:2, img:"gear/spider-suit.jpg", name:"Classic Spider-Suit", hero:"Spider-Man", cat:"Suits & Armour", type:"figure", colors:["#E8262C","#FFD000"], price:499999, rating:4.7, sizes:["S", "M", "L", "XL"],
+    desc:"A lightweight stretch suit with reinforced palms and polarised eye lenses. Made for swinging between buildings and staying cool through a Queens summer.",
+    features:["Stretch fabric with raised web pattern", "Grip-textured gloves and soles", "Pairs with Web-Shooters (sold separately)"]},
+  {id:3, img:"gear/iron-spider-suit.jpg", name:"Iron Spider Nanotech Suit", hero:"Spider-Man", cat:"Suits & Armour", type:"figure", colors:["#E8262C","#FFD000"], price:25000000, rating:4.9,
+    desc:"The Stark-built suit with four retractable spider legs and a built-in AI assistant. It seals itself for spaceflight, so you can follow a ship all the way into orbit.",
+    features:["Four mechanical legs for climbing and combat", "Sealed helmet with oxygen supply", "Heads-up display with onboard AI"]},
+  {id:4, img:"gear/antman-suit.jpg", name:"Ant-Man Quantum Suit", hero:"Ant-Man", cat:"Suits & Armour", type:"figure", colors:["#6B1D1D","#FFD000"], price:12000000, rating:4.6, sizes:["S", "M", "L", "XL"],
+    desc:"Hank Pym's shrinking suit, rebuilt with quantum realm navigation. Shrink to the size of an ant or grow to 20 metres at the press of a button.",
+    features:["Size controls on both gauntlets", "Helmet with ant communication earpiece", "Pym Particle vials sold separately"]},
+  {id:5, img:"gear/panther-habit.jpg", name:"Black Panther Vibranium Habit", hero:"Black Panther", cat:"Suits & Armour", type:"figure", colors:["#2B2B2B","#FFD000"], price:180000000, rating:4.9,
+    desc:"A woven vibranium suit that absorbs the energy of every hit and releases it as a kinetic pulse. It stays folded inside a single necklace until you need it.",
+    features:["Absorbs and redirects kinetic energy", "Retractable vibranium claws", "Nanite weave fits any wearer"]},
+  {id:6, img:"gear/deadpool-mask.jpg", name:"Deadpool Tactical Mask", hero:"Deadpool", cat:"Suits & Armour", type:"figure", colors:["#9E1B1B","#FFD000"], price:14999, rating:4.5,
+    desc:"A breathable red mask with reinforced eye panels, built for a mercenary who talks too much. It survives explosions better than its owner's dignity.",
+    features:["Textured anti-slip fabric", "Mesh eye lenses for clear vision", "One size fits most heads"]},
+  {id:7, img:"gear/falcon-wings.jpg", name:"Falcon EXO-7 Wing Pack", hero:"Falcon", cat:"Suits & Armour", type:"figure", colors:["#5A6B7B","#FFD000"], price:8500000, rating:4.7,
+    desc:"A military flight harness with folding carbon wings and a companion recon drone. Reaches over 400 km/h with a trained pilot. Photo shows the left wing.",
+    features:["Wings deploy in under a second", "Redwing recon drone included", "Pilot training recommended before first flight"]},
+  {id:8, img:"gear/vibranium-shield.jpg", name:"Vibranium Shield", hero:"Captain America", cat:"Shields & Weapons", type:"figure", colors:["#1C4CD1","#FFD000"], price:120000000, rating:5.0,
+    desc:"Made from the rarest metal on Earth, this shield absorbs every impact and comes back when thrown at the right angle. Captain America's own design, balanced for throwing.",
+    features:["Pure vibranium, virtually indestructible", "Absorbs vibration and impact", "Returns when thrown at the right angle"]},
+  {id:9, img:"gear/mjolnir.jpg", name:"Mjolnir", hero:"Thor", cat:"Shields & Weapons", type:"figure", colors:["#3E5C76","#FFD000"], price:500000000, rating:4.9,
+    desc:"Forged in the heart of a dying star, Thor's hammer summons lightning and flies back to your hand when called. Only the worthy can lift it.",
+    features:["Summons lightning and enables flight", "Returns to its owner on command", "Worthiness check at delivery: no refund if you can't lift it"]},
+  {id:10, img:"gear/stormbreaker.jpg", name:"Stormbreaker", hero:"Thor", cat:"Shields & Weapons", type:"figure", colors:["#3E5C76","#FFD000"], price:450000000, rating:4.8,
+    desc:"Forged in Nidavellir with a handle made from Groot's own branch, this axe can summon the Bifrost. Strong enough to hurt a Titan.",
+    features:["Uru metal blade", "Opens a Bifrost bridge anywhere", "Handle grown from living Groot wood"]},
+  {id:11, img:"gear/web-shooters.jpg", name:"Web-Shooters (Pair)", hero:"Spider-Man", cat:"Shields & Weapons", type:"figure", colors:["#E8262C","#FFD000"], price:49999, rating:4.8,
+    desc:"Wrist-mounted shooters that fire a web strong enough to stop a train. Tap two fingers on your palm to fire, just like Peter does.",
+    features:["Palm tap trigger", "Refillable web fluid cartridges", "Left and right wrist units"]},
+  {id:12, img:"gear/widows-bite.jpg", name:"Widow's Bite Gauntlets", hero:"Black Widow", cat:"Shields & Weapons", type:"figure", colors:["#444444","#FFD000"], price:650000, rating:4.7,
+    desc:"Gold wrist gauntlets that deliver a non-lethal electric sting on contact. Discreet enough to wear with a formal outfit.",
+    features:["Electric charge for close combat", "Grappling line and flash charges", "Adjustable pair"]},
+  {id:13, img:"gear/hawkeye-kit.jpg", name:"Hawkeye Bow & Trick Arrow Kit", hero:"Hawkeye", cat:"Shields & Weapons", type:"figure", colors:["#5B2C83","#FFD000"], price:320000, rating:4.6,
+    desc:"A folding compound bow with 20 interchangeable trick arrowheads. Swap heads for grappling, cable, net or EMP shots.",
+    features:["Folding bow fits in a backpack", "20 trick arrowheads included", "Quiver with quick-select dial"]},
+  {id:14, img:"gear/loki-sceptre.jpg", name:"Loki's Sceptre", hero:"Loki", cat:"Shields & Weapons", type:"figure", colors:["#1E7A46","#FFD000"], price:300000000, rating:4.4,
+    desc:"A Chitauri sceptre with a blue gem that can bend the minds of anyone it touches. Handle with extreme care.",
+    features:["Chitauri-forged staff", "Energy blast from the blade", "Mind control function"]},
+  {id:15, img:"gear/arc-reactor.jpg", name:"Arc Reactor", hero:"Iron Man", cat:"Tech & Gadgets", type:"figure", colors:["#B8860B","#FFD000"], price:85000000, rating:4.9,
+    desc:"The miniature energy source that powered the first Iron Man suits. Enough clean power for a suit, a lab or a small building. Ships in a display case.",
+    features:["3 gigajoules per second of output", "Palladium-free core", "Display case with engraved ring"]},
+  {id:16, img:"gear/edith-glasses.jpg", name:"EDITH Glasses", hero:"Iron Man", cat:"Tech & Gadgets", type:"figure", colors:["#B8860B","#FFD000"], price:15000000, rating:4.7,
+    desc:"Tony Stark's augmented reality glasses, with access to the Stark Industries satellite network. Ships in a vintage wooden case.",
+    features:["AR display with face recognition", "Connected to Stark satellites and drones", "Voice assistant built in"]},
+  {id:17, img:"gear/kimoyo-beads.jpg", name:"Kimoyo Beads", hero:"Black Panther", cat:"Tech & Gadgets", type:"figure", colors:["#2B2B2B","#FFD000"], price:250000, rating:4.8,
+    desc:"Wakandan beads that work as a phone, a medical kit and a remote control. Each bead has its own job.",
+    features:["Holographic video calls", "Medical scan and healing bead", "Remote pilot for vehicles"]},
+  {id:18, img:"gear/pym-particles.jpg", name:"Pym Particles (Set of 12)", hero:"Ant-Man", cat:"Tech & Gadgets", type:"figure", colors:["#6B1D1D","#FFD000"], price:999999, rating:4.7,
+    desc:"Twelve vials of the particles that make shrinking and growing possible. Needed to power every Ant-Man and Wasp suit.",
+    features:["12 sealed vials", "Enables shrinking and growth", "Store away from children and quantum tunnels"]},
+  {id:19, img:"gear/starlord-helmet.jpg", name:"Star-Lord Helmet", hero:"Star-Lord", cat:"Tech & Gadgets", type:"figure", colors:["#A0522D","#FFD000"], price:180000, rating:4.6,
+    desc:"Peter Quill's mask that deploys from two earpieces and lets you breathe in space. Folds away when you're done.",
+    features:["Deploys from ear-mounted units", "Breathing support in space", "Red lenses with night vision"]},
+  {id:20, img:"gear/cerebro-headset.jpg", name:"Cerebro Headset", hero:"X-Men", cat:"Tech & Gadgets", type:"figure", colors:["#8C6D00","#FFD000"], price:30000000, rating:4.5,
+    desc:"The telepathic amplifier Professor X uses to find mutants anywhere on Earth. Recommended for strong telepaths only.",
+    features:["Amplifies telepathy worldwide", "Detects mutant brainwaves", "Not suitable for non-telepaths"]},
+  {id:21, img:"gear/sling-ring.jpg", name:"Sling Ring", hero:"Doctor Strange", cat:"Mystic Arts", type:"figure", colors:["#E0701B","#FFD000"], price:108000, rating:4.8,
+    desc:"A two-finger ring from Kamar-Taj that opens a portal to anywhere you can picture clearly. Try not to lose it on Everest.",
+    features:["Opens portals to any location", "Two-finger brass design", "Beginner training at Kamar-Taj recommended"]},
+  {id:22, img:"gear/cloak-levitation.jpg", name:"Cloak of Levitation", hero:"Doctor Strange", cat:"Mystic Arts", type:"figure", colors:["#E0701B","#FFD000"], price:200000000, rating:4.9,
+    desc:"A relic from the Sanctum Sanctorum that lets you fly and fights on its own. The cloak chooses its wearer, so it may refuse delivery.",
+    features:["Enables flight and levitation", "Protects you on its own", "Ships in its original display case"]},
+  {id:23, img:"gear/eye-agamotto.jpg", name:"Eye of Agamotto", hero:"Doctor Strange", cat:"Mystic Arts", type:"figure", colors:["#E0701B","#FFD000"], price:600000000, rating:4.9,
+    desc:"An ancient amulet that holds the Time Stone. It can rewind, pause or loop time around any object.",
+    features:["Houses the Time Stone", "Rewind and time-loop functions", "For Masters of the Mystic Arts"]},
+  {id:24, img:"gear/book-vishanti.jpg", name:"Book of the Vishanti", hero:"Doctor Strange", cat:"Mystic Arts", type:"figure", colors:["#E0701B","#FFD000"], price:50000000, rating:4.6,
+    desc:"The book of white magic, with spells to counter the darkest forces in the multiverse. Bound in silver with a protective seal.",
+    features:["Counter-spells for dark magic", "Silver-bound protective cover", "Ancient script, translation not included"]},
+  {id:25, img:"gear/infinity-gauntlet.jpg", name:"Infinity Gauntlet", hero:"Thanos", cat:"Cosmic Artifacts", type:"figure", colors:["#8A6A2F","#FFD000"], price:5000000000, rating:4.8,
+    desc:"Forged in Nidavellir to hold all six Infinity Stones. One snap changes the universe, so think carefully before you use it.",
+    features:["Holds all six Infinity Stones", "Uru metal construction", "Display base included"]},
+  {id:26, img:"gear/tesseract.jpg", name:"Tesseract", hero:"S.H.I.E.L.D.", cat:"Cosmic Artifacts", type:"figure", colors:["#1B3A5C","#FFD000"], price:2500000000, rating:4.7,
+    desc:"A glowing cube that holds the Space Stone and opens portals across the universe. Previously kept by S.H.I.E.L.D. for research.",
+    features:["Contains the Space Stone", "Opens portals across space", "Unlimited energy source"]},
+  {id:27, img:"gear/the-orb.jpg", name:"The Orb", hero:"Star-Lord", cat:"Cosmic Artifacts", type:"figure", colors:["#A0522D","#FFD000"], price:1800000000, rating:4.6,
+    desc:"A sealed metal sphere that holds the Power Stone. Keep it closed: the stone destroys anyone who touches it unprotected.",
+    features:["Contains the Power Stone", "Sealed containment shell", "Lead-lined transport box included"]},
+  {id:28, img:"gear/quinjet.jpg", name:"Quinjet", hero:"Avengers", cat:"Vehicles", type:"figure", colors:["#7A1FA2","#FFD000"], price:8500000000, rating:4.9,
+    desc:"The Avengers' stealth jet with vertical take-off and supersonic speed. Seats the whole team plus their gear.",
+    features:["Vertical take-off and landing", "Stealth cloaking mode", "Seats 8, with a cargo bay"]},
+  {id:29, img:"gear/milano.jpg", name:"Milano", hero:"Star-Lord", cat:"Vehicles", type:"figure", colors:["#A0522D","#FFD000"], price:1200000000, rating:4.7,
+    desc:"Star-Lord's personal spaceship, built for jumps between galaxies. Comes with a surprisingly good sound system.",
+    features:["Jump-point capable", "Cargo hold and crew quarters", "Cassette player included"]},
+  {id:30, img:"gear/helicarrier.jpg", name:"S.H.I.E.L.D. Helicarrier", hero:"S.H.I.E.L.D.", cat:"Vehicles", type:"figure", colors:["#1B3A5C","#FFD000"], price:12000000000, rating:4.8,
+    desc:"A flying aircraft carrier with four lift rotors and a full runway. The command headquarters of a global peacekeeping force.",
+    features:["Four lift rotors, cruises at 30,000 ft", "Runway for Quinjets and fighters", "Crew of 3,000 required (not included)"]}
 ];
 
 /* =========================================================
    2. PRODUCT PICTURES
-   Each product shows the photo from its img:"images/....jpg" path.
-   Upload those photos into an "images" folder on GitHub.
+   Each product shows the photo from its img:"gear/....jpg" path.
+   Upload those photos into a "gear" folder on GitHub.
    If a photo is missing, a backup drawing is shown instead.
    ========================================================= */
 function art(p){
@@ -437,7 +467,7 @@ function art(p){
   // Real photo on top; if the photo file is missing, it removes itself and the drawing shows instead
   return `<div style="position:relative;width:100%;height:100%;background:#fff">${drawing}
     <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.remove()"
-      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"></div>`;
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;display:block"></div>`;
 }
 
 /* =========================================================
@@ -446,13 +476,26 @@ function art(p){
 const state = { cart: [], lastOrder: null };
 /* The store has ONE offer: buy any 3 or more items, get flat 15% off the order */
 const OFFER_MIN_ITEMS = 3, OFFER_RATE = 0.15;
+/* Payment rules, based on how Indian payment methods actually work */
+const UPI_LIMIT = 100000;      // UPI caps a single payment at ₹1 lakh
+const COD_LIMIT = 50000;       // cash on delivery only for smaller orders
+const COD_FEE = 49;
+const EMI_PLANS = [ {months:3, rate:0}, {months:6, rate:0}, {months:12, rate:0.14}, {months:24, rate:0.14} ];
+/* Weapons and cosmic artifacts are restricted: buyer must be a registered hero, 18+ */
+const RESTRICTED = ["Shields & Weapons", "Cosmic Artifacts"];
+const isRestricted = p => RESTRICTED.includes(p.cat);
+const needsHeroId = () => state.cart.some(i => isRestricted(byId(i.id)));
+const emiMonthly = (amount, plan) => {
+  if(!plan.rate) return amount / plan.months;                 // no-cost EMI
+  const r = plan.rate / 12, f = Math.pow(1 + r, plan.months);  // standard EMI formula
+  return amount * r * f / (f - 1);
+};
 
 const $ = s => document.querySelector(s);
 const rupee = n => "₹" + Math.round(n).toLocaleString("en-IN");
 const byId = id => PRODUCTS.find(p => p.id === +id);
 const heroTag = h => `<span class="tag" style="background:${HEROES[h].color}">${h}</span>`;
 const stars = r => "★".repeat(Math.round(r)) + "☆".repeat(5-Math.round(r));
-const off = p => Math.round((1 - p.price/p.mrp) * 100);
 
 function toast(msg){
   const t = $("#toast"); t.textContent = msg; t.classList.add("show");
@@ -506,24 +549,32 @@ function productCard(p){
 }
 
 function Home(){
-  const featured = [10,24,15,17,4,11].map(byId);
+  const featured = [1,8,9,11,17,22,23,28].map(byId);
+  const catPic = {"Suits & Armour":3,"Shields & Weapons":8,"Tech & Gadgets":15,"Mystic Arts":23,"Cosmic Artifacts":25,"Vehicles":28};
   return `
   <section class="splash">
     <div class="splash-main panel">
-      <span class="bubble">New drop: the Hero Essentials collection</span>
+      <span class="bubble">Now shipping across the multiverse</span>
       <h1>Gear up like your favourite hero</h1>
-      <p>Tees, mugs, plushies, brick sets and collector replicas, inspired by the heroes of the multiverse and delivered across India.</p>
-      <a href="#/shop" class="btn">Shop the collection</a>
+      <p>The actual suits, shields, gadgets and cosmic artifacts the heroes use, delivered to your door.</p>
+      <a href="#/shop" class="btn">Shop the armoury</a>
     </div>
     <div class="splash-side panel">
       <h3>Buy any 3, get 15% off</h3><p>Add any three items to your cart and the discount applies automatically.</p>
     </div>
     <div class="splash-side panel">
-      <h3>Pay your way</h3><p>UPI, credit and debit cards, or cash on delivery. Delivered in 3–5 days.</p>
+      <h3>Pay your way</h3><p>UPI, cards, EMI for up to 24 months, or cash on delivery on smaller orders.</p>
     </div>
   </section>
 
-  <h2>Shop by hero</h2>
+  <h2>Shop by category</h2>
+  <div class="cat-grid">
+    ${CATEGORIES.map(c=>`<a class="cat-tile panel" href="#/shop?cat=${encodeURIComponent(c)}">
+      <span class="art">${art(byId(catPic[c]))}</span>
+      <strong>${c}</strong><small>${PRODUCTS.filter(p=>p.cat===c).length} items</small></a>`).join("")}
+  </div>
+
+  <h2>Shop by character</h2>
   <div class="hero-row">
     ${Object.entries(HEROES).map(([h,v])=>`<a class="hero-chip" href="#/shop?hero=${encodeURIComponent(h)}">
       <span style="background:${v.color}">${v.initial}</span>${h}</a>`).join("")}
@@ -534,25 +585,24 @@ function Home(){
 }
 
 function Shop(query){
-  const hero = query.get("hero") || "All";
+  const hero = query.get("hero") || "All", cat = query.get("cat") || "All";
   return `
   <h2>The Armoury <span class="caption">${PRODUCTS.length} products</span></h2>
   <div class="shop">
     <aside class="filters panel">
       <h3>Category</h3>
-      ${["All","Apparel","Accessories","Collectibles","Home"].map((c,i)=>`
-        <label><input type="radio" name="cat" value="${c}" ${i===0?"checked":""}> ${c}</label>`).join("")}
+      ${["All",...CATEGORIES].map(c=>`
+        <label><input type="radio" name="cat" value="${c}" ${c===cat?"checked":""}> ${c}</label>`).join("")}
       <h3>Hero</h3>
       <select class="field" id="heroSel">
         <option>All</option>${Object.keys(HEROES).map(h=>`<option ${h===hero?"selected":""}>${h}</option>`).join("")}
       </select>
-      <h3>Max price</h3>
-      <input type="range" id="priceRange" min="500" max="5000" step="100" value="5000" style="width:100%">
-      <div>Up to <strong id="priceVal">₹5,000</strong></div>
+      <h3>Price</h3>
+      ${PRICE_BANDS.map((b,i)=>`<label><input type="radio" name="band" value="${i}" ${i===0?"checked":""}> ${b[0]}</label>`).join("")}
     </aside>
     <section>
       <div class="toolbar">
-        <input class="field" id="search" type="search" placeholder="Search hoodies, mugs, figures…">
+        <input class="field" id="search" type="search" placeholder="Search suits, shields, artifacts…">
         <select class="field" id="sort">
           <option value="pop">Sort: Popular</option>
           <option value="low">Price: Low to high</option>
@@ -564,19 +614,20 @@ function Shop(query){
     </section>
   </div>`;
 }
+const PRICE_BANDS = [["Any price",0,Infinity],["Under ₹1 lakh",0,1e5],["₹1 lakh – ₹1 crore",1e5,1e7],
+  ["₹1 crore – ₹100 crore",1e7,1e9],["Above ₹100 crore",1e9,Infinity]];
 function filterShop(){
   const cat = document.querySelector('input[name="cat"]:checked').value;
   const hero = $("#heroSel").value, q = $("#search").value.toLowerCase().trim();
-  const max = +$("#priceRange").value, sort = $("#sort").value;
-  $("#priceVal").textContent = rupee(max);
+  const [,lo,hi] = PRICE_BANDS[+document.querySelector('input[name="band"]:checked').value], sort = $("#sort").value;
   let list = PRODUCTS.filter(p =>
-    (cat==="All"||p.cat===cat) && (hero==="All"||p.hero===hero) && p.price<=max &&
+    (cat==="All"||p.cat===cat) && (hero==="All"||p.hero===hero) && p.price>=lo && p.price<hi &&
     (p.name+p.hero+p.cat).toLowerCase().includes(q));
   if(sort==="low") list.sort((a,b)=>a.price-b.price);
   if(sort==="high") list.sort((a,b)=>b.price-a.price);
   if(sort==="rating") list.sort((a,b)=>b.rating-a.rating);
   $("#shopGrid").innerHTML = list.length ? list.map(productCard).join("")
-    : `<div class="panel empty"><h2>No gear found</h2><p>Try a different hero, category or a higher price limit.</p></div>`;
+    : `<div class="panel empty"><h2>No gear found</h2><p>Try a different character, category or price range.</p></div>`;
 }
 
 function Product(id){
@@ -592,7 +643,9 @@ function Product(id){
       <h1>${p.name}</h1>
       <div class="stars">${stars(p.rating)} <small style="color:#000">${p.rating} / 5</small></div>
       <p style="margin:12px 0"><span class="price">${rupee(p.price)}</span></p>
+      <p class="pay-hint">No-cost EMI from ${rupee(p.price/6)}/month · ${p.price<=COD_LIMIT ? "Cash on delivery available" : "Prepaid orders only"}</p>
       <p class="caption" style="margin-bottom:12px">Buy any 3 items, get flat 15% off</p>
+      ${isRestricted(p) ? `<div class="restricted">🛡️ Registered heroes only. You'll need your Sokovia Accords ID and must be 18 or older to check out.</div>` : ""}
       <p>${p.desc}</p>
       <ul class="features">${p.features.map(f=>`<li>${f}</li>`).join("")}</ul>
       ${p.sizes ? `<strong>Size</strong><div class="opts" id="sizes">
@@ -606,7 +659,7 @@ function Product(id){
       <p style="margin-top:16px;font-size:.9rem">🚚 Delivery in 3–5 days · ↩ 7-day returns · 🔒 Secure checkout</p>
     </div>
   </div>
-  ${related.length ? `<h2 style="margin-top:50px">More ${p.hero} gear</h2><div class="grid">${related.map(productCard).join("")}</div>` : ""}`;
+  ${related.length ? `<h2 style="margin-top:50px">More from ${p.hero}</h2><div class="grid">${related.map(productCard).join("")}</div>` : ""}`;
 }
 
 function Cart(){
@@ -649,7 +702,7 @@ function Summary(t, withCoupon){
 
 function Checkout(){
   if(!state.cart.length){ location.hash = "#/cart"; return ""; }
-  const t = totals();
+  const t = totals(), pay0 = t.total > UPI_LIMIT ? "card" : "upi";
   const f = (id,label,ph,cls="",type="text") => `<label class="${cls}">${label}
     <input class="field" id="${id}" type="${type}" placeholder="${ph}"><span class="err" data-for="${id}"></span></label>`;
   return `
@@ -667,14 +720,23 @@ function Checkout(){
           ${f("pin","PIN code","500001")}
         </div>
       </section>
+      ${needsHeroId() ? `<section class="form-panel panel">
+        <h3>Hero registration</h3>
+        <p style="margin-bottom:14px">Your cart has weapons or cosmic artifacts. Under the Sokovia Accords, we only ship these to registered heroes aged 18 or over.</p>
+        <div class="form-grid">
+          ${f("heroAlias","Registered hero name","Spider-Man")}
+          ${f("accordsId","Sokovia Accords ID","SA-104729")}
+        </div>
+        <label class="check"><input type="checkbox" id="ageOk"> I confirm I'm 18 or older and registered under the Sokovia Accords</label>
+        <span class="err" data-for="ageOk"></span>
+      </section>` : ""}
       <section class="form-panel panel">
         <h3>Payment</h3>
         <div class="tabs">
-          <button class="tab on" data-tab="upi">UPI</button>
-          <button class="tab" data-tab="card">Credit / debit card</button>
-          <button class="tab" data-tab="cod">Cash on delivery</button>
+          ${[["upi","UPI"],["card","Card"],["emi","EMI"],["cod","Cash on delivery"]].map(([k,l])=>`<button class="tab ${k===pay0?"on":""}" data-tab="${k}">${l}</button>`).join("")}
         </div>
-        <div id="pay-upi">
+        <div id="pay-upi" ${pay0!=="upi"?"hidden":""}>
+          ${t.total > UPI_LIMIT ? `<div class="cod-note">UPI payments are capped at ${rupee(UPI_LIMIT)} per transaction. For this order, pay by card or EMI.</div>` : `
           <p><strong>Pay with a UPI app</strong></p>
           <div class="upi-apps">
             <button class="opt sel" data-app="GPay">GPay</button><button class="opt" data-app="PhonePe">PhonePe</button>
@@ -682,9 +744,9 @@ function Checkout(){
           </div>
           <label style="font-weight:800">Or enter your UPI ID
             <input class="field" id="upi" placeholder="name@okbank"><span class="err" data-for="upi"></span></label>
-          <p style="margin-top:10px;font-size:.9rem">You'll get a payment request on your UPI app. Approve it within 5 minutes.</p>
+          <p style="margin-top:10px;font-size:.9rem">You'll get a payment request on your UPI app. Approve it within 5 minutes.</p>`}
         </div>
-        <div id="pay-card" hidden>
+        <div id="pay-card" ${pay0!=="card"?"hidden":""}>
           <div class="card-preview">
             <span class="brand" id="cBrand">CARD</span><div class="chip"></div>
             <div class="num" id="cNum">•••• •••• •••• ••••</div>
@@ -697,14 +759,30 @@ function Checkout(){
             ${f("cardCvv","CVV","123","","password")}
           </div>
         </div>
+        <div id="pay-emi" hidden>
+          <label style="font-weight:800">Credit card bank
+            <select class="field" id="emiBank"><option value="">Choose your bank</option>
+              <option>HDFC Bank</option><option>ICICI Bank</option><option>SBI Card</option><option>Axis Bank</option></select>
+            <span class="err" data-for="emiBank"></span></label>
+          <p style="margin:12px 0 8px"><strong>Choose a plan</strong></p>
+          <div class="emi-plans">
+            ${EMI_PLANS.map((pl,i)=>`<label class="emi-plan"><input type="radio" name="emi" value="${i}" ${i===0?"checked":""}>
+              <span>${pl.months} months<br><small>${pl.rate ? "14% a year, charged by your bank" : "No-cost EMI"}</small></span>
+              <strong>${rupee(emiMonthly(t.total,pl))}/mo</strong></label>`).join("")}
+          </div>
+          <p style="margin-top:10px;font-size:.9rem">You'll confirm the plan with an OTP from your bank.</p>
+        </div>
         <div id="pay-cod" hidden>
-          <div class="cod-note">Pay in cash or by UPI when your order arrives. A ₹49 handling fee applies to cash-on-delivery orders.</div>
+          <div class="cod-note">${t.total > COD_LIMIT
+            ? `Cash on delivery is available on orders up to ${rupee(COD_LIMIT)}. For this order, pay by card or EMI.`
+            : `Pay in cash or by UPI when your order arrives. A ${rupee(COD_FEE)} handling fee applies to cash-on-delivery orders.`}</div>
         </div>
       </section>
     </div>
-    <div>
+    <div class="pay-col">
       ${Summary(t,false)}
       <button class="btn red" id="placeOrder" style="width:100%;margin-top:18px">Pay ${rupee(t.total)}</button>
+      <p style="margin-top:10px;font-size:.85rem">Your payment is processed securely. We never store your card details.</p>
     </div>
   </div>`;
 }
@@ -723,6 +801,7 @@ function Success(){
       <h3>Order ${o.id}</h3>
       <p>Paid via <strong>${o.method}</strong> · Arriving by <strong>${o.eta}</strong></p>
       <p>Delivering to ${o.addr}</p>
+      ${o.heroId ? `<p>Hero registration ${o.heroId} verified</p>` : ""}
       <ul class="track"><li class="done">Order placed</li><li>Packed</li><li>Shipped</li><li>Out for delivery</li><li>Delivered</li></ul>
       ${o.items.map(i=>`<div class="row"><span>${byId(i.id).name}${i.size?" ("+i.size+")":""} × ${i.qty}</span><span>${rupee(byId(i.id).price*i.qty)}</span></div>`).join("")}
       <div class="row total"><span>Total paid</span><span>${rupee(o.total)}</span></div>
@@ -753,6 +832,15 @@ function validate(){
   ok &= setErr("addr", v("addr").length<8 ? "Enter your full address" : "");
   ok &= setErr("city", v("city").length<2 ? "Enter your city" : "");
   ok &= setErr("pin", /^[1-9]\d{5}$/.test(v("pin")) ? "" : "Enter a valid 6-digit PIN code");
+  if(needsHeroId()){
+    ok &= setErr("heroAlias", v("heroAlias").length<2 ? "Enter your registered hero name" : "");
+    ok &= setErr("accordsId", /^SA-\d{6}$/i.test(v("accordsId")) ? "" : "Enter your Accords ID as SA- followed by 6 digits");
+    ok &= setErr("ageOk", $("#ageOk").checked ? "" : "Confirm you're 18+ and a registered hero");
+  }
+  const total = totals().total;
+  if(payMethod==="upi" && total > UPI_LIMIT){ toast(`UPI is capped at ${rupee(UPI_LIMIT)}. Choose card or EMI.`); ok = false; }
+  if(payMethod==="cod" && total > COD_LIMIT){ toast(`Cash on delivery is only for orders up to ${rupee(COD_LIMIT)}.`); ok = false; }
+  if(payMethod==="emi") ok &= setErr("emiBank", v("emiBank") ? "" : "Choose the bank that issued your credit card");
   if(payMethod==="upi" && v("upi")) ok &= setErr("upi", /^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test(v("upi")) ? "" : "Enter a valid UPI ID, like name@okbank");
   if(payMethod==="card"){
     const num = v("cardNum").replace(/\s/g,"");
@@ -766,9 +854,11 @@ function validate(){
   return !!ok;
 }
 function placeOrder(){
-  if(!validate()){ toast("Fix the highlighted fields to continue"); document.querySelector(".bad")?.focus(); return; }
+  if(!validate()){ if(document.querySelector(".bad")){ toast("Fix the highlighted fields to continue"); document.querySelector(".bad").focus(); } return; }
+  const plan = EMI_PLANS[+(document.querySelector('input[name="emi"]:checked')?.value || 0)];
   const msg = payMethod==="upi" ? `Waiting for you to approve the request on ${ $("#upi").value.trim() ? "your UPI app" : upiApp }…`
-            : payMethod==="card" ? "Verifying your card with the bank…" : "Confirming your order…";
+            : payMethod==="card" ? "Verifying your card with the bank…"
+            : payMethod==="emi" ? `Sending your EMI request to ${$("#emiBank").value}…` : "Confirming your order…";
   const ov = document.createElement("div");
   ov.className = "overlay";
   ov.innerHTML = `<div class="panel"><div class="spinner"></div><h3 style="font-size:1.8rem">Processing payment</h3><p>${msg}</p><p><small>Don't close or refresh this page.</small></p></div>`;
@@ -779,8 +869,10 @@ function placeOrder(){
       id: "#MM" + Math.floor(100000 + Math.random()*900000),
       name: $("#name").value.trim().split(" ")[0], email: $("#email").value.trim(),
       addr: `${$("#addr").value.trim()}, ${$("#city").value.trim()} ${$("#pin").value.trim()}`,
-      method: payMethod==="upi" ? "UPI" : payMethod==="card" ? "Card ending " + $("#cardNum").value.replace(/\s/g,"").slice(-4) : "Cash on delivery",
-      total: t.total + (payMethod==="cod" ? 49 : 0),
+      method: payMethod==="upi" ? "UPI" : payMethod==="card" ? "Card ending " + $("#cardNum").value.replace(/\s/g,"").slice(-4)
+            : payMethod==="emi" ? `EMI with ${$("#emiBank").value}, ${plan.months} months at ${rupee(emiMonthly(t.total,plan))}/month` : "Cash on delivery",
+      heroId: needsHeroId() ? $("#accordsId").value.trim().toUpperCase() : "",
+      total: t.total + (payMethod==="cod" ? COD_FEE : 0),
       eta: eta.toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"}),
       items: state.cart.map(i=>({...i}))
     };
@@ -806,7 +898,7 @@ function router(){
   else app.innerHTML = Home();
   document.querySelectorAll("[data-nav]").forEach(a=>a.classList.toggle("active", a.dataset.nav===page));
   window.scrollTo(0,0);
-  pdpQty = 1; payMethod = "upi"; upiApp = "GPay";
+  pdpQty = 1; payMethod = totals().total > UPI_LIMIT ? "card" : "upi"; upiApp = "GPay";
 }
 let pdpQty = 1;
 
@@ -823,8 +915,8 @@ document.addEventListener("click", e => {
   if(d.size){ document.querySelectorAll("#sizes .opt").forEach(b=>b.classList.toggle("sel", b===e.target)); }
   if(d.tab){ payMethod = d.tab;
     document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("on", b.dataset.tab===d.tab));
-    ["upi","card","cod"].forEach(m=> $("#pay-"+m).hidden = m!==d.tab);
-    const t = totals(); $("#placeOrder").textContent = d.tab==="cod" ? `Place order (${rupee(t.total+49)})` : `Pay ${rupee(t.total)}`; }
+    ["upi","card","emi","cod"].forEach(m=> $("#pay-"+m).hidden = m!==d.tab);
+    updatePayBtn(); }
   if(d.app){ upiApp = d.app; document.querySelectorAll("[data-app]").forEach(b=>b.classList.toggle("sel", b===e.target)); }
   const id = e.target.id;
   if(id==="qPlus"||id==="qMinus"){ pdpQty = Math.max(1, Math.min(10, pdpQty + (id==="qPlus"?1:-1))); $("#qVal").textContent = pdpQty; }
@@ -836,8 +928,15 @@ document.addEventListener("click", e => {
   if(id==="placeOrder") placeOrder();
 });
 
+function updatePayBtn(){
+  const t = totals(), b = $("#placeOrder"); if(!b) return;
+  const plan = EMI_PLANS[+(document.querySelector('input[name="emi"]:checked')?.value || 0)];
+  b.textContent = payMethod==="cod" ? `Place order (${rupee(t.total+COD_FEE)})`
+                : payMethod==="emi" ? `Pay ${rupee(emiMonthly(t.total,plan))}/month` : `Pay ${rupee(t.total)}`;
+}
 document.addEventListener("input", e => {
-  if(["search","priceRange","heroSel","sort"].includes(e.target.id) || e.target.name==="cat") filterShop();
+  if(["search","heroSel","sort"].includes(e.target.id) || e.target.name==="cat" || e.target.name==="band") filterShop();
+  if(e.target.name==="emi") updatePayBtn();
   const id = e.target.id;
   if(id==="cardNum"){
     const n = e.target.value.replace(/\D/g,"").slice(0,16);
@@ -852,7 +951,10 @@ document.addEventListener("input", e => {
     e.target.value = v; $("#cExp").textContent = v || "MM/YY";
   }
 });
-document.addEventListener("change", e => { if(e.target.name==="cat"||e.target.id==="heroSel"||e.target.id==="sort") filterShop(); });
+document.addEventListener("change", e => {
+  if(e.target.name==="cat"||e.target.name==="band"||e.target.id==="heroSel"||e.target.id==="sort") filterShop();
+  if(e.target.name==="emi") updatePayBtn();
+});
 
 window.addEventListener("hashchange", router);
 router();
