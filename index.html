@@ -114,7 +114,7 @@ header{background:var(--red);border-bottom:var(--panel-border);position:sticky;t
 /* ============ PRODUCT GRID ============ */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:26px}
 .card{display:flex;flex-direction:column;position:relative}
-.card .art{aspect-ratio:1;border-bottom:var(--panel-border);cursor:pointer;display:block}
+.card .art{aspect-ratio:1;border-bottom:var(--panel-border);cursor:pointer;display:block;position:relative}
 .card .art svg{width:100%;height:100%;display:block}
 .card-body{padding:14px;display:flex;flex-direction:column;gap:6px;flex:1}
 .card-body h3{font-family:var(--body);font-weight:800;font-size:1.02rem;letter-spacing:0;line-height:1.3}
@@ -217,6 +217,42 @@ header{background:var(--red);border-bottom:var(--panel-border);position:sticky;t
 .emi-plan:has(input:checked){background:var(--yellow)}
 .emi-plan strong{font-family:var(--display);font-weight:400;font-size:1.3rem}
 .filters label{display:block;padding:3px 0}
+.cat-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+textarea.field{font-family:inherit;resize:vertical}
+.review{padding:12px 0;border-top:2px dashed var(--ink)}
+.review p{margin-top:6px}
+.review small{opacity:.7}
+.fb-stars{display:flex;gap:8px;justify-content:center;margin:12px 0}
+.fb-stars .opt{font-size:1.4rem;padding:4px 12px}
+.fb-stars .opt.sel{color:var(--yellow)}
+.policy{max-width:760px;margin:0 auto}
+.trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:44px}
+.trust .panel{padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.trust small{opacity:.75}
+.badge18{position:absolute;top:10px;right:10px;background:var(--red);color:#fff;font-weight:800;font-size:.8rem;padding:3px 8px;border:2px solid var(--ink);z-index:2}
+.cert{padding:10px 14px;border:3px dashed var(--ink);background:var(--white);font-weight:800;margin:4px 0 18px}
+.overlay[hidden]{display:none}
+.help-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.help-cards .panel{padding:18px}
+.help-cards h3{margin-bottom:6px}
+.faq{border-top:2px dashed var(--ink);padding:10px 0}
+.faq summary{font-weight:800;cursor:pointer}
+.faq p{margin-top:8px}
+.chat-fab{position:fixed;right:18px;bottom:18px;z-index:90;background:var(--blue);color:#fff;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);padding:12px 16px;font-weight:800;cursor:pointer}
+.chat-fab[hidden],.chat[hidden]{display:none}
+.chat{position:fixed;right:18px;bottom:18px;z-index:95;width:min(340px,calc(100vw - 36px));display:flex;flex-direction:column;max-height:70vh}
+.chat-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--red);color:#fff;border-bottom:3px solid var(--ink)}
+.chat-head button{background:none;border:0;color:#fff;font-size:1.1rem;cursor:pointer}
+.chat-log{padding:12px;overflow:auto;display:flex;flex-direction:column;gap:8px;flex:1;min-height:120px}
+.msg{padding:8px 10px;border:2px solid var(--ink);max-width:85%;font-size:.9rem}
+.msg.bot{background:var(--white);align-self:flex-start}
+.msg.you{background:var(--yellow);align-self:flex-end;font-weight:800}
+.chat-quick{display:flex;flex-wrap:wrap;gap:6px;padding:10px;border-top:3px solid var(--ink)}
+.chat-quick .opt{font-size:.8rem;padding:5px 8px}
+.policy h1{font-family:var(--display);font-weight:400;font-size:2.4rem;margin-bottom:10px}
+.policy h3{margin:20px 0 6px}
+.policy ol,.policy ul{padding-left:22px}
+.policy li{margin:4px 0}
 
 /* ============ OVERLAY / SUCCESS ============ */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:grid;place-items:center;z-index:100;padding:20px}
@@ -271,12 +307,33 @@ footer .logo{font-size:1.6rem;display:inline-block;margin-bottom:8px}
     <ul class="nav-links">
       <li><a href="#/" data-nav="home">Home</a></li>
       <li><a href="#/shop" data-nav="shop">Shop</a></li>
+      <li><a href="#/help" data-nav="help">Help</a></li>
       <li><a href="#/cart" class="cart-btn panel" data-nav="cart" aria-label="Cart">🛒 Cart <span class="cart-count" id="cartCount">0</span></a></li>
     </ul>
   </div>
 </header>
 
 <main><div class="wrap" id="app"></div></main>
+<button class="chat-fab" id="chatOpen" aria-label="Chat with customer service">💬 Need help?</button>
+<div class="chat panel" id="chatBox" hidden>
+  <div class="chat-head"><strong>Multiverse Mart support</strong><button id="chatClose" aria-label="Close chat">✕</button></div>
+  <div class="chat-log" id="chatLog"><div class="msg bot">Hi! I'm here to help. What do you need?</div></div>
+  <div class="chat-quick">
+    <button class="opt" data-q="track">Track my order</button><button class="opt" data-q="return">Return or exchange</button>
+    <button class="opt" data-q="pay">Payment options</button><button class="opt" data-q="id">Hero ID check</button>
+    <button class="opt" data-q="agent">Talk to a person</button>
+  </div>
+</div>
+<div class="overlay" id="ageGate" hidden>
+  <div class="panel" style="max-width:440px">
+    <h3 style="font-size:2rem">🔞 18+ warning</h3>
+    <p style="margin:10px 0 18px">Multiverse Mart sells weapons and restricted artifacts. You must be 18 or older to enter this store.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn red" id="ageYes">I'm 18 or older</button>
+      <button class="btn ghost" id="ageNo">I'm under 18</button>
+    </div>
+  </div>
+</div>
 
 <footer>
   <div class="wrap foot">
@@ -285,9 +342,10 @@ footer .logo{font-size:1.6rem;display:inline-block;margin-bottom:8px}
       <p>Real gear from the heroes' world.</p>
     </div>
     <div>
-      <p>Buy any 3 items, get flat 15% off</p>
+      <p><a href="#/returns" style="color:var(--yellow)">Returns, exchange and authenticity</a></p>
       <p>Free delivery · 7-day returns · Secure payments</p>
       <p>Weapons and cosmic artifacts ship only to registered heroes</p>
+      <p><a href="#/help" style="color:var(--yellow)">Customer service</a> · 1800-419-2026 (toll-free)</p>
       <p style="opacity:.6;margin-top:8px">Academic e-commerce project by Group Spidey. Not affiliated with any studio or brand.</p>
     </div>
   </div>
@@ -322,94 +380,94 @@ const HEROES = {
 const CATEGORIES = ["Suits & Armour", "Shields & Weapons", "Tech & Gadgets", "Mystic Arts", "Cosmic Artifacts", "Vehicles"];
 
 const PRODUCTS = [
-  {id:1, img:"gear/ironman-armour.jpg", name:"Iron Man Mark LXXXV Armour", hero:"Iron Man", cat:"Suits & Armour", type:"figure", colors:["#B8860B","#FFD000"], price:9799, rating:4.9,
+  {id:1, img:"gear/ironman-armour.jpg", name:"Iron Man Mark LXXXV Armour", hero:"Iron Man", cat:"Suits & Armour", type:"figure", colors:["#B8860B","#FFD000"], price:279999, rating:4.9,
     desc:"Tony Stark's final nanotech armour, stored in a housing unit worn on the chest and deployed in under two seconds. Built for flight, combat and deep-space missions. Photo shows the helmet; the full suit ships in its housing unit.",
     features:["Nanotech shell deploys from the chest housing", "Repulsors, unibeam and FRIDAY AI assistant", "Self-repairing and self-fitting to any wearer"]},
-  {id:2, img:"gear/spider-suit.jpg", name:"Classic Spider-Suit", hero:"Spider-Man", cat:"Suits & Armour", type:"figure", colors:["#E8262C","#FFD000"], price:2499, rating:4.7, sizes:["S", "M", "L", "XL"],
+  {id:2, img:"gear/spider-suit.jpg", name:"Classic Spider-Suit", hero:"Spider-Man", cat:"Suits & Armour", type:"figure", colors:["#E8262C","#FFD000"], price:139999, rating:4.7, sizes:["S", "M", "L", "XL"],
     desc:"A lightweight stretch suit with reinforced palms and polarised eye lenses. Made for swinging between buildings and staying cool through a Queens summer.",
     features:["Stretch fabric with raised web pattern", "Grip-textured gloves and soles", "Pairs with Web-Shooters (sold separately)"]},
-  {id:3, img:"gear/iron-spider-suit.jpg", name:"Iron Spider Nanotech Suit", hero:"Spider-Man", cat:"Suits & Armour", type:"figure", colors:["#E8262C","#FFD000"], price:7999, rating:4.9,
+  {id:3, img:"gear/iron-spider-suit.jpg", name:"Iron Spider Nanotech Suit", hero:"Spider-Man", cat:"Suits & Armour", type:"figure", colors:["#E8262C","#FFD000"], price:259999, rating:4.9,
     desc:"The Stark-built suit with four retractable spider legs and a built-in AI assistant. It seals itself for spaceflight, so you can follow a ship all the way into orbit.",
     features:["Four mechanical legs for climbing and combat", "Sealed helmet with oxygen supply", "Heads-up display with onboard AI"]},
-  {id:4, img:"gear/antman-suit.jpg", name:"Ant-Man Quantum Suit", hero:"Ant-Man", cat:"Suits & Armour", type:"figure", colors:["#6B1D1D","#FFD000"], price:5999, rating:4.6, sizes:["S", "M", "L", "XL"],
+  {id:4, img:"gear/antman-suit.jpg", name:"Ant-Man Quantum Suit", hero:"Ant-Man", cat:"Suits & Armour", type:"figure", colors:["#6B1D1D","#FFD000"], price:219999, rating:4.6, sizes:["S", "M", "L", "XL"],
     desc:"Hank Pym's shrinking suit, rebuilt with quantum realm navigation. Shrink to the size of an ant or grow to 20 metres at the press of a button.",
     features:["Size controls on both gauntlets", "Helmet with ant communication earpiece", "Pym Particle vials sold separately"]},
-  {id:5, img:"gear/panther-habit.jpg", name:"Black Panther Vibranium Habit", hero:"Black Panther", cat:"Suits & Armour", type:"figure", colors:["#2B2B2B","#FFD000"], price:8999, rating:4.9,
+  {id:5, img:"gear/panther-habit.jpg", name:"Black Panther Vibranium Habit", hero:"Black Panther", cat:"Suits & Armour", type:"figure", colors:["#2B2B2B","#FFD000"], price:269999, rating:4.9,
     desc:"A woven vibranium suit that absorbs the energy of every hit and releases it as a kinetic pulse. It stays folded inside a single necklace until you need it.",
     features:["Absorbs and redirects kinetic energy", "Retractable vibranium claws", "Nanite weave fits any wearer"]},
-  {id:6, img:"gear/deadpool-mask.jpg", name:"Deadpool Tactical Mask", hero:"Deadpool", cat:"Suits & Armour", type:"figure", colors:["#9E1B1B","#FFD000"], price:799, rating:4.5,
+  {id:6, img:"gear/deadpool-mask.jpg", name:"Deadpool Tactical Mask", hero:"Deadpool", cat:"Suits & Armour", type:"figure", colors:["#9E1B1B","#FFD000"], price:119999, rating:4.5,
     desc:"A breathable red mask with reinforced eye panels, built for a mercenary who talks too much. It survives explosions better than its owner's dignity.",
     features:["Textured anti-slip fabric", "Mesh eye lenses for clear vision", "One size fits most heads"]},
-  {id:7, img:"gear/falcon-wings.jpg", name:"Falcon EXO-7 Wing Pack", hero:"Falcon", cat:"Suits & Armour", type:"figure", colors:["#5A6B7B","#FFD000"], price:6999, rating:4.7,
+  {id:7, img:"gear/falcon-wings.jpg", name:"Falcon EXO-7 Wing Pack", hero:"Falcon", cat:"Suits & Armour", type:"figure", colors:["#5A6B7B","#FFD000"], price:229999, rating:4.7,
     desc:"A military flight harness with folding carbon wings and a companion recon drone. Reaches over 400 km/h with a trained pilot. Photo shows the left wing.",
     features:["Wings deploy in under a second", "Redwing recon drone included", "Pilot training recommended before first flight"]},
-  {id:8, img:"gear/vibranium-shield.jpg", name:"Vibranium Shield", hero:"Captain America", cat:"Shields & Weapons", type:"figure", colors:["#1C4CD1","#FFD000"], price:4999, rating:5.0,
+  {id:8, img:"gear/vibranium-shield.jpg", name:"Vibranium Shield", hero:"Captain America", cat:"Shields & Weapons", type:"figure", colors:["#1C4CD1","#FFD000"], price:199999, rating:5.0,
     desc:"Made from the rarest metal on Earth, this shield absorbs every impact and comes back when thrown at the right angle. Captain America's own design, balanced for throwing.",
     features:["Pure vibranium, virtually indestructible", "Absorbs vibration and impact", "Returns when thrown at the right angle"]},
-  {id:9, img:"gear/mjolnir.jpg", name:"Mjolnir", hero:"Thor", cat:"Shields & Weapons", type:"figure", colors:["#3E5C76","#FFD000"], price:6499, rating:4.9,
+  {id:9, img:"gear/mjolnir.jpg", name:"Mjolnir", hero:"Thor", cat:"Shields & Weapons", type:"figure", colors:["#3E5C76","#FFD000"], price:274999, rating:4.9,
     desc:"Forged in the heart of a dying star, Thor's hammer summons lightning and flies back to your hand when called. Only the worthy can lift it.",
-    features:["Summons lightning and enables flight", "Returns to its owner on command", "Worthiness check at delivery: no refund if you can't lift it"]},
-  {id:10, img:"gear/stormbreaker.jpg", name:"Stormbreaker", hero:"Thor", cat:"Shields & Weapons", type:"figure", colors:["#3E5C76","#FFD000"], price:5499, rating:4.8,
+    features:["Summons lightning and enables flight", "Returns to its owner on command", "Display stand included"]},
+  {id:10, img:"gear/stormbreaker.jpg", name:"Stormbreaker", hero:"Thor", cat:"Shields & Weapons", type:"figure", colors:["#3E5C76","#FFD000"], price:254999, rating:4.8,
     desc:"Forged in Nidavellir with a handle made from Groot's own branch, this axe can summon the Bifrost. Strong enough to hurt a Titan.",
     features:["Uru metal blade", "Opens a Bifrost bridge anywhere", "Handle grown from living Groot wood"]},
-  {id:11, img:"gear/web-shooters.jpg", name:"Web-Shooters (Pair)", hero:"Spider-Man", cat:"Shields & Weapons", type:"figure", colors:["#E8262C","#FFD000"], price:1299, rating:4.8,
+  {id:11, img:"gear/web-shooters.jpg", name:"Web-Shooters (Pair)", hero:"Spider-Man", cat:"Shields & Weapons", type:"figure", colors:["#E8262C","#FFD000"], price:129999, rating:4.8,
     desc:"Wrist-mounted shooters that fire a web strong enough to stop a train. Tap two fingers on your palm to fire, just like Peter does.",
     features:["Palm tap trigger", "Refillable web fluid cartridges", "Left and right wrist units"]},
-  {id:12, img:"gear/widows-bite.jpg", name:"Widow's Bite Gauntlets", hero:"Black Widow", cat:"Shields & Weapons", type:"figure", colors:["#444444","#FFD000"], price:1999, rating:4.7,
+  {id:12, img:"gear/widows-bite.jpg", name:"Widow's Bite Gauntlets", hero:"Black Widow", cat:"Shields & Weapons", type:"figure", colors:["#444444","#FFD000"], price:149999, rating:4.7,
     desc:"Gold wrist gauntlets that deliver a non-lethal electric sting on contact. Discreet enough to wear with a formal outfit.",
     features:["Electric charge for close combat", "Grappling line and flash charges", "Adjustable pair"]},
-  {id:13, img:"gear/hawkeye-kit.jpg", name:"Hawkeye Bow & Trick Arrow Kit", hero:"Hawkeye", cat:"Shields & Weapons", type:"figure", colors:["#5B2C83","#FFD000"], price:3499, rating:4.6,
+  {id:13, img:"gear/hawkeye-kit.jpg", name:"Hawkeye Bow & Trick Arrow Kit", hero:"Hawkeye", cat:"Shields & Weapons", type:"figure", colors:["#5B2C83","#FFD000"], price:159999, rating:4.6,
     desc:"A folding compound bow with 20 interchangeable trick arrowheads. Swap heads for grappling, cable, net or EMP shots.",
     features:["Folding bow fits in a backpack", "20 trick arrowheads included", "Quiver with quick-select dial"]},
-  {id:14, img:"gear/loki-sceptre.jpg", name:"Loki's Sceptre", hero:"Loki", cat:"Shields & Weapons", type:"figure", colors:["#1E7A46","#FFD000"], price:3999, rating:4.4,
+  {id:14, img:"gear/loki-sceptre.jpg", name:"Loki's Sceptre", hero:"Loki", cat:"Shields & Weapons", type:"figure", colors:["#1E7A46","#FFD000"], price:194999, rating:4.4,
     desc:"A Chitauri sceptre with a blue gem that can bend the minds of anyone it touches. Handle with extreme care.",
     features:["Chitauri-forged staff", "Energy blast from the blade", "Mind control function"]},
-  {id:15, img:"gear/arc-reactor.jpg", name:"Arc Reactor", hero:"Iron Man", cat:"Tech & Gadgets", type:"figure", colors:["#B8860B","#FFD000"], price:2999, rating:4.9,
+  {id:15, img:"gear/arc-reactor.jpg", name:"Arc Reactor", hero:"Iron Man", cat:"Tech & Gadgets", type:"figure", colors:["#B8860B","#FFD000"], price:184999, rating:4.9,
     desc:"The miniature energy source that powered the first Iron Man suits. Enough clean power for a suit, a lab or a small building. Ships in a display case.",
     features:["3 gigajoules per second of output", "Palladium-free core", "Display case with engraved ring"]},
-  {id:16, img:"gear/edith-glasses.jpg", name:"EDITH Glasses", hero:"Iron Man", cat:"Tech & Gadgets", type:"figure", colors:["#B8860B","#FFD000"], price:1799, rating:4.7,
+  {id:16, img:"gear/edith-glasses.jpg", name:"EDITH Glasses", hero:"Iron Man", cat:"Tech & Gadgets", type:"figure", colors:["#B8860B","#FFD000"], price:164999, rating:4.7,
     desc:"Tony Stark's augmented reality glasses, with access to the Stark Industries satellite network. Ships in a vintage wooden case.",
     features:["AR display with face recognition", "Connected to Stark satellites and drones", "Voice assistant built in"]},
-  {id:17, img:"gear/kimoyo-beads.jpg", name:"Kimoyo Beads", hero:"Black Panther", cat:"Tech & Gadgets", type:"figure", colors:["#2B2B2B","#FFD000"], price:999, rating:4.8,
+  {id:17, img:"gear/kimoyo-beads.jpg", name:"Kimoyo Beads", hero:"Black Panther", cat:"Tech & Gadgets", type:"figure", colors:["#2B2B2B","#FFD000"], price:134999, rating:4.8,
     desc:"Wakandan beads that work as a phone, a medical kit and a remote control. Each bead has its own job.",
     features:["Holographic video calls", "Medical scan and healing bead", "Remote pilot for vehicles"]},
-  {id:18, img:"gear/pym-particles.jpg", name:"Pym Particles (Set of 12)", hero:"Ant-Man", cat:"Tech & Gadgets", type:"figure", colors:["#6B1D1D","#FFD000"], price:1499, rating:4.7,
+  {id:18, img:"gear/pym-particles.jpg", name:"Pym Particles (Set of 12)", hero:"Ant-Man", cat:"Tech & Gadgets", type:"figure", colors:["#6B1D1D","#FFD000"], price:154999, rating:4.7,
     desc:"Twelve vials of the particles that make shrinking and growing possible. Needed to power every Ant-Man and Wasp suit.",
     features:["12 sealed vials", "Enables shrinking and growth", "Store away from children and quantum tunnels"]},
-  {id:19, img:"gear/starlord-helmet.jpg", name:"Star-Lord Helmet", hero:"Star-Lord", cat:"Tech & Gadgets", type:"figure", colors:["#A0522D","#FFD000"], price:4499, rating:4.6,
+  {id:19, img:"gear/starlord-helmet.jpg", name:"Star-Lord Helmet", hero:"Star-Lord", cat:"Tech & Gadgets", type:"figure", colors:["#A0522D","#FFD000"], price:162999, rating:4.6,
     desc:"Peter Quill's mask that deploys from two earpieces and lets you breathe in space. Folds away when you're done.",
     features:["Deploys from ear-mounted units", "Breathing support in space", "Red lenses with night vision"]},
-  {id:20, img:"gear/cerebro-headset.jpg", name:"Cerebro Headset", hero:"X-Men", cat:"Tech & Gadgets", type:"figure", colors:["#8C6D00","#FFD000"], price:2799, rating:4.5,
+  {id:20, img:"gear/cerebro-headset.jpg", name:"Cerebro Headset", hero:"X-Men", cat:"Tech & Gadgets", type:"figure", colors:["#8C6D00","#FFD000"], price:209999, rating:4.5,
     desc:"The telepathic amplifier Professor X uses to find mutants anywhere on Earth. Recommended for strong telepaths only.",
     features:["Amplifies telepathy worldwide", "Detects mutant brainwaves", "Not suitable for non-telepaths"]},
-  {id:21, img:"gear/sling-ring.jpg", name:"Sling Ring", hero:"Doctor Strange", cat:"Mystic Arts", type:"figure", colors:["#E0701B","#FFD000"], price:599, rating:4.8,
+  {id:21, img:"gear/sling-ring.jpg", name:"Sling Ring", hero:"Doctor Strange", cat:"Mystic Arts", type:"figure", colors:["#E0701B","#FFD000"], price:109999, rating:4.8,
     desc:"A two-finger ring from Kamar-Taj that opens a portal to anywhere you can picture clearly. Try not to lose it on Everest.",
     features:["Opens portals to any location", "Two-finger brass design", "Beginner training at Kamar-Taj recommended"]},
-  {id:22, img:"gear/cloak-levitation.jpg", name:"Cloak of Levitation", hero:"Doctor Strange", cat:"Mystic Arts", type:"figure", colors:["#E0701B","#FFD000"], price:3299, rating:4.9,
+  {id:22, img:"gear/cloak-levitation.jpg", name:"Cloak of Levitation", hero:"Doctor Strange", cat:"Mystic Arts", type:"figure", colors:["#E0701B","#FFD000"], price:224999, rating:4.9,
     desc:"A relic from the Sanctum Sanctorum that lets you fly and fights on its own. The cloak chooses its wearer, so it may refuse delivery.",
     features:["Enables flight and levitation", "Protects you on its own", "Ships in its original display case"]},
-  {id:23, img:"gear/eye-agamotto.jpg", name:"Eye of Agamotto", hero:"Doctor Strange", cat:"Mystic Arts", type:"figure", colors:["#E0701B","#FFD000"], price:1199, rating:4.9,
+  {id:23, img:"gear/eye-agamotto.jpg", name:"Eye of Agamotto", hero:"Doctor Strange", cat:"Mystic Arts", type:"figure", colors:["#E0701B","#FFD000"], price:249999, rating:4.9,
     desc:"An ancient amulet that holds the Time Stone. It can rewind, pause or loop time around any object.",
     features:["Houses the Time Stone", "Rewind and time-loop functions", "For Masters of the Mystic Arts"]},
-  {id:24, img:"gear/book-vishanti.jpg", name:"Book of the Vishanti", hero:"Doctor Strange", cat:"Mystic Arts", type:"figure", colors:["#E0701B","#FFD000"], price:1999, rating:4.6,
+  {id:24, img:"gear/book-vishanti.jpg", name:"Book of the Vishanti", hero:"Doctor Strange", cat:"Mystic Arts", type:"figure", colors:["#E0701B","#FFD000"], price:174999, rating:4.6,
     desc:"The book of white magic, with spells to counter the darkest forces in the multiverse. Bound in silver with a protective seal.",
     features:["Counter-spells for dark magic", "Silver-bound protective cover", "Ancient script, translation not included"]},
-  {id:25, img:"gear/infinity-gauntlet.jpg", name:"Infinity Gauntlet", hero:"Thanos", cat:"Cosmic Artifacts", type:"figure", colors:["#8A6A2F","#FFD000"], price:8499, rating:4.8,
+  {id:25, img:"gear/infinity-gauntlet.jpg", name:"Infinity Gauntlet", hero:"Thanos", cat:"Cosmic Artifacts", type:"figure", colors:["#8A6A2F","#FFD000"], price:294999, rating:4.8,
     desc:"Forged in Nidavellir to hold all six Infinity Stones. One snap changes the universe, so think carefully before you use it.",
     features:["Holds all six Infinity Stones", "Uru metal construction", "Display base included"]},
-  {id:26, img:"gear/tesseract.jpg", name:"Tesseract", hero:"S.H.I.E.L.D.", cat:"Cosmic Artifacts", type:"figure", colors:["#1B3A5C","#FFD000"], price:2499, rating:4.7,
+  {id:26, img:"gear/tesseract.jpg", name:"Tesseract", hero:"S.H.I.E.L.D.", cat:"Cosmic Artifacts", type:"figure", colors:["#1B3A5C","#FFD000"], price:264999, rating:4.7,
     desc:"A glowing cube that holds the Space Stone and opens portals across the universe. Previously kept by S.H.I.E.L.D. for research.",
     features:["Contains the Space Stone", "Opens portals across space", "Unlimited energy source"]},
-  {id:27, img:"gear/the-orb.jpg", name:"The Orb", hero:"Star-Lord", cat:"Cosmic Artifacts", type:"figure", colors:["#A0522D","#FFD000"], price:1899, rating:4.6,
+  {id:27, img:"gear/the-orb.jpg", name:"The Orb", hero:"Star-Lord", cat:"Cosmic Artifacts", type:"figure", colors:["#A0522D","#FFD000"], price:214999, rating:4.6,
     desc:"A sealed metal sphere that holds the Power Stone. Keep it closed: the stone destroys anyone who touches it unprotected.",
     features:["Contains the Power Stone", "Sealed containment shell", "Lead-lined transport box included"]},
-  {id:28, img:"gear/quinjet.jpg", name:"Quinjet", hero:"Avengers", cat:"Vehicles", type:"figure", colors:["#7A1FA2","#FFD000"], price:9499, rating:4.9,
+  {id:28, img:"gear/quinjet.jpg", name:"Quinjet", hero:"Avengers", cat:"Vehicles", type:"figure", colors:["#7A1FA2","#FFD000"], price:289999, rating:4.9,
     desc:"The Avengers' stealth jet with vertical take-off and supersonic speed. Seats the whole team plus their gear.",
     features:["Vertical take-off and landing", "Stealth cloaking mode", "Seats 8, with a cargo bay"]},
-  {id:29, img:"gear/milano.jpg", name:"Milano", hero:"Star-Lord", cat:"Vehicles", type:"figure", colors:["#A0522D","#FFD000"], price:7499, rating:4.7,
+  {id:29, img:"gear/milano.jpg", name:"Milano", hero:"Star-Lord", cat:"Vehicles", type:"figure", colors:["#A0522D","#FFD000"], price:284999, rating:4.7,
     desc:"Star-Lord's personal spaceship, built for jumps between galaxies. Comes with a surprisingly good sound system.",
     features:["Jump-point capable", "Cargo hold and crew quarters", "Cassette player included"]},
-  {id:30, img:"gear/helicarrier.jpg", name:"S.H.I.E.L.D. Helicarrier", hero:"S.H.I.E.L.D.", cat:"Vehicles", type:"figure", colors:["#1B3A5C","#FFD000"], price:9999, rating:4.8,
+  {id:30, img:"gear/helicarrier.jpg", name:"S.H.I.E.L.D. Helicarrier", hero:"S.H.I.E.L.D.", cat:"Vehicles", type:"figure", colors:["#1B3A5C","#FFD000"], price:299999, rating:4.8,
     desc:"A flying aircraft carrier with four lift rotors and a full runway. The command headquarters of a global peacekeeping force.",
     features:["Four lift rotors, cruises at 30,000 ft", "Runway for Quinjets and fighters", "Crew of 3,000 required (not included)"]}
 ];
@@ -473,13 +531,9 @@ function art(p){
 /* =========================================================
    3. STATE + HELPERS
    ========================================================= */
-const state = { cart: [], lastOrder: null };
-/* The store has ONE offer: buy any 3 or more items, get flat 15% off the order */
-const OFFER_MIN_ITEMS = 3, OFFER_RATE = 0.15;
-/* Payment rules, based on how Indian payment methods actually work */
-const UPI_LIMIT = 100000;      // UPI caps a single payment at ₹1 lakh
-const COD_LIMIT = 50000;       // cash on delivery only for smaller orders
-const COD_FEE = 49;
+const state = { cart: [], lastOrder: null, reviews: {}, feedback: [] };
+/* No discounts: customers pay the listed price. Payment by card, EMI or net banking,
+   because UPI (₹1 lakh cap) and cash on delivery can't handle orders this size */
 const EMI_MIN = 3000;        // banks offer EMI only above a minimum order value
 const EMI_PLANS = [ {months:3, rate:0}, {months:6, rate:0}, {months:12, rate:0.14}, {months:24, rate:0.14} ];
 /* Weapons and cosmic artifacts are restricted: buyer must be a registered hero, 18+ */
@@ -517,17 +571,13 @@ function addToCart(id, qty=1, size=null){
   if(p.sizes && !size) size = p.sizes[1] || p.sizes[0];
   const key = id + "-" + (size||"");
   const item = state.cart.find(i => i.key === key);
-  const before = totals().items;
   item ? item.qty += qty : state.cart.push({key, id:+id, qty, size});
   updateCount();
-  if(before < OFFER_MIN_ITEMS && totals().items >= OFFER_MIN_ITEMS)
-    setTimeout(()=>toast("Offer unlocked: 15% off your order!"), 2300);
 }
 function totals(){
   const items = state.cart.reduce((s,i)=> s + i.qty, 0);
   const subtotal = state.cart.reduce((s,i)=> s + byId(i.id).price * i.qty, 0);
-  const discount = items >= OFFER_MIN_ITEMS ? subtotal * OFFER_RATE : 0;
-  return {items, subtotal, discount, shipping: 0, total: subtotal - discount};
+  return {items, subtotal, shipping: 0, total: subtotal};
 }
 function updateCount(){ $("#cartCount").textContent = state.cart.reduce((s,i)=>s+i.qty,0); }
 
@@ -536,7 +586,7 @@ function updateCount(){ $("#cartCount").textContent = state.cart.reduce((s,i)=>s
    ========================================================= */
 function productCard(p){
   return `<article class="card panel">
-    <a class="art" href="#/product/${p.id}">${art(p)}</a>
+    <a class="art" href="#/product/${p.id}">${art(p)}${isRestricted(p) ? `<span class="badge18">18+</span>` : ""}</a>
     <div class="card-body">
       ${heroTag(p.hero)}
       <h3><a href="#/product/${p.id}">${p.name}</a></h3>
@@ -561,12 +611,19 @@ function Home(){
       <a href="#/shop" class="btn">Shop the armoury</a>
     </div>
     <div class="splash-side panel">
-      <h3>Buy any 3, get 15% off</h3><p>Add any three items to your cart and the discount applies automatically.</p>
+      <h3>7-day returns &amp; exchange</h3><p>Not happy with your gear? Return it for a full refund or exchange it within 7 days. <a href="#/returns" style="color:inherit;font-weight:800">Read our policy</a></p>
     </div>
     <div class="splash-side panel">
-      <h3>Pay your way</h3><p>UPI, cards, EMI for up to 24 months, or cash on delivery up to ₹50,000.</p>
+      <h3>Pay your way</h3><p>Credit and debit cards, EMI for up to 24 months, or net banking. Free delivery on every order.</p>
     </div>
   </section>
+
+  <div class="trust">
+    <div class="panel"><strong>✅ Certificate of authenticity</strong><small>Numbered certificate with every item</small></div>
+    <div class="panel"><strong>↩ 7-day returns &amp; exchange</strong><small>Free pickup from your door</small></div>
+    <div class="panel"><strong>🔞 18+ for restricted items</strong><small>Hero ID checked at checkout</small></div>
+    <div class="panel"><strong>🚚 Free delivery</strong><small>On every order, in 3–5 days</small></div>
+  </div>
 
   <h2>Shop by category</h2>
   <div class="cat-grid">
@@ -594,12 +651,14 @@ function Shop(query){
       <h3>Category</h3>
       ${["All",...CATEGORIES].map(c=>`
         <label><input type="radio" name="cat" value="${c}" ${c===cat?"checked":""}> ${c}</label>`).join("")}
-      <h3>Hero</h3>
+      <h3>Character</h3>
       <select class="field" id="heroSel">
         <option>All</option>${Object.keys(HEROES).map(h=>`<option ${h===hero?"selected":""}>${h}</option>`).join("")}
       </select>
       <h3>Price</h3>
       ${PRICE_BANDS.map((b,i)=>`<label><input type="radio" name="band" value="${i}" ${i===0?"checked":""}> ${b[0]}</label>`).join("")}
+      <h3>Age</h3>
+      <label><input type="checkbox" id="hide18"> Hide 18+ items</label>
     </aside>
     <section>
       <div class="toolbar">
@@ -615,20 +674,41 @@ function Shop(query){
     </section>
   </div>`;
 }
-const PRICE_BANDS = [["Any price",0,Infinity],["Under ₹1,000",0,1000],["₹1,000 – ₹3,000",1000,3000],
-  ["₹3,000 – ₹6,000",3000,6000],["Above ₹6,000",6000,Infinity]];
+const PRICE_BANDS = [["Any price",0,Infinity],["Under ₹1.5 lakh",0,150000],["₹1.5 – ₹2 lakh",150000,200000],
+  ["₹2 – ₹2.5 lakh",200000,250000],["₹2.5 – ₹3 lakh",250000,Infinity]];
 function filterShop(){
   const cat = document.querySelector('input[name="cat"]:checked').value;
-  const hero = $("#heroSel").value, q = $("#search").value.toLowerCase().trim();
+  const hero = $("#heroSel").value, q = $("#search").value.toLowerCase().trim(), hide18 = $("#hide18").checked;
   const [,lo,hi] = PRICE_BANDS[+document.querySelector('input[name="band"]:checked').value], sort = $("#sort").value;
   let list = PRODUCTS.filter(p =>
     (cat==="All"||p.cat===cat) && (hero==="All"||p.hero===hero) && p.price>=lo && p.price<hi &&
-    (p.name+p.hero+p.cat).toLowerCase().includes(q));
+    !(hide18 && isRestricted(p)) && (p.name+p.hero+p.cat).toLowerCase().includes(q));
   if(sort==="low") list.sort((a,b)=>a.price-b.price);
   if(sort==="high") list.sort((a,b)=>b.price-a.price);
   if(sort==="rating") list.sort((a,b)=>b.rating-a.rating);
   $("#shopGrid").innerHTML = list.length ? list.map(productCard).join("")
-    : `<div class="panel empty"><h2>No gear found</h2><p>Try a different character, category or price range.</p></div>`;
+    : `<div class="panel empty"><h2>No gear found</h2><p>Try a different category, character or price range.</p></div>`;
+}
+
+/* Customer reviews: a few sample reviews per category, plus any the customer writes */
+const REVIEWS = {
+  "Suits & Armour": [["Karthik R.",5,"Fits perfectly and feels solid. Delivery was on time and the packaging was premium."],
+    ["Sneha M.",4,"Great quality. Took a day to get used to it, but worth it."],["Arjun P.",5,"Exactly as shown in the photos. The size guide was accurate."]],
+  "Shields & Weapons": [["Vikram S.",5,"Well balanced and very well made. The registration step at checkout was quick."],
+    ["Priya N.",4,"Heavier than I expected, but the build quality is excellent."],["Rahul T.",5,"Arrived in a sturdy case with no damage. Highly recommended."]],
+  "Tech & Gadgets": [["Ananya K.",5,"Setup was easy and it worked straight out of the box."],
+    ["Deepak V.",4,"Very useful. Battery life could be better, but no other complaints."],["Meera J.",5,"Looks and works exactly as described. Fast delivery."]],
+  "Mystic Arts": [["Siddharth G.",5,"Beautiful craftsmanship. You can see the detail up close."],
+    ["Kavya L.",4,"Takes practice to use properly, but the quality is top notch."],["Nikhil B.",5,"Packed carefully and arrived a day early."]],
+  "Cosmic Artifacts": [["Aditya M.",5,"Stunning piece. The glow is even better in person."],
+    ["Ishita R.",4,"Handle with care, as the description says. Worth it."],["Manoj K.",5,"Came with the display base as promised. Very happy."]],
+  "Vehicles": [["Farhan A.",5,"Smooth handover, and the team explained every control."],
+    ["Divya S.",4,"Needs a big hangar, but the performance is outstanding."],["Rakesh P.",5,"Delivered on schedule. Our whole team uses it now."]]
+};
+function reviewList(p){
+  const pool = REVIEWS[p.cat], base = [pool[p.id % 3], pool[(p.id + 1) % 3]];
+  const all = [...(state.reviews[p.id] || []), ...base];
+  return all.map(([n,r,t])=>`<div class="review"><div class="stars">${stars(r)}</div><strong>${n}</strong> <small>Verified buyer</small><p>${t}</p></div>`).join("");
 }
 
 function Product(id){
@@ -644,9 +724,9 @@ function Product(id){
       <h1>${p.name}</h1>
       <div class="stars">${stars(p.rating)} <small style="color:#000">${p.rating} / 5</small></div>
       <p style="margin:12px 0"><span class="price">${rupee(p.price)}</span></p>
-      <p class="pay-hint">${p.price>=EMI_MIN ? `No-cost EMI from ${rupee(p.price/6)}/month · ` : ""}${p.price<=COD_LIMIT ? "Cash on delivery available" : "Prepaid orders only"}</p>
-      <p class="caption" style="margin-bottom:12px">Buy any 3 items, get flat 15% off</p>
-      ${isRestricted(p) ? `<div class="restricted">🛡️ Registered heroes only. You'll need your Sokovia Accords ID and must be 18 or older to check out.</div>` : ""}
+      <p class="pay-hint">No-cost EMI from ${rupee(p.price/6)}/month · Free delivery</p>
+      ${isRestricted(p) ? `<div class="restricted">🔞 18+ only. This is a restricted item. You must be 18 or older and show your Sokovia Accords ID at checkout.</div>` : ""}
+      <div class="cert">✅ Comes with a numbered certificate of authenticity</div>
       <p>${p.desc}</p>
       <ul class="features">${p.features.map(f=>`<li>${f}</li>`).join("")}</ul>
       ${p.sizes ? `<strong>Size</strong><div class="opts" id="sizes">
@@ -657,9 +737,21 @@ function Product(id){
         <button class="btn" id="pdpAdd">Add to cart</button>
         <button class="btn red" id="pdpBuy">Buy now</button>
       </div>
-      <p style="margin-top:16px;font-size:.9rem">🚚 Delivery in 3–5 days · ↩ 7-day returns · 🔒 Secure checkout</p>
+      <p style="margin-top:16px;font-size:.9rem">🚚 Free delivery in 3–5 days · ↩ <a href="#/returns">7-day returns &amp; exchange</a> · 🔒 Secure checkout</p>
     </div>
   </div>
+  <section class="panel form-panel" style="margin-top:40px">
+    <h3>Customer reviews</h3>
+    <p style="margin-bottom:14px"><span class="stars">${stars(p.rating)}</span> <strong>${p.rating} out of 5</strong></p>
+    <div id="revList">${reviewList(p)}</div>
+    <h3 style="margin-top:22px">Write a review</h3>
+    <div class="form-grid">
+      <label>Your name<input class="field" id="revName" placeholder="Your name"></label>
+      <label>Rating<select class="field" id="revRating"><option value="5">5 stars</option><option value="4">4 stars</option><option value="3">3 stars</option><option value="2">2 stars</option><option value="1">1 star</option></select></label>
+      <label class="full">Your review<textarea class="field" id="revText" rows="3" placeholder="What did you like or dislike?"></textarea></label>
+    </div>
+    <button class="btn" id="revSubmit" style="margin-top:12px">Submit review</button>
+  </section>
   ${related.length ? `<h2 style="margin-top:50px">More from ${p.hero}</h2><div class="grid">${related.map(productCard).join("")}</div>` : ""}`;
 }
 
@@ -691,8 +783,6 @@ function Summary(t, withCoupon){
   return `<aside class="summary panel">
     <h3 style="font-size:1.8rem;margin-bottom:10px">Order summary</h3>
     <div class="row"><span>Subtotal</span><span>${rupee(t.subtotal)}</span></div>
-    ${t.discount ? `<div class="row" style="color:var(--green);font-weight:800"><span>Buy 3 offer (15% off)</span><span>−${rupee(t.discount)}</span></div>`
-      : `<div class="cod-note" style="margin:6px 0">Add ${OFFER_MIN_ITEMS - t.items} more item${OFFER_MIN_ITEMS - t.items > 1 ? "s" : ""} to get flat 15% off your order.</div>`}
     <div class="row"><span>Delivery</span><span>Free</span></div>
     <div class="row total"><span>Total</span><span>${rupee(t.total)}</span></div>
     <small>Inclusive of all taxes</small>
@@ -703,7 +793,7 @@ function Summary(t, withCoupon){
 
 function Checkout(){
   if(!state.cart.length){ location.hash = "#/cart"; return ""; }
-  const t = totals(), pay0 = t.total > UPI_LIMIT ? "card" : "upi";
+  const t = totals(), pay0 = "card";
   const f = (id,label,ph,cls="",type="text") => `<label class="${cls}">${label}
     <input class="field" id="${id}" type="${type}" placeholder="${ph}"><span class="err" data-for="${id}"></span></label>`;
   return `
@@ -734,18 +824,7 @@ function Checkout(){
       <section class="form-panel panel">
         <h3>Payment</h3>
         <div class="tabs">
-          ${[["upi","UPI"],["card","Card"],["emi","EMI"],["cod","Cash on delivery"]].map(([k,l])=>`<button class="tab ${k===pay0?"on":""}" data-tab="${k}">${l}</button>`).join("")}
-        </div>
-        <div id="pay-upi" ${pay0!=="upi"?"hidden":""}>
-          ${t.total > UPI_LIMIT ? `<div class="cod-note">UPI payments are capped at ${rupee(UPI_LIMIT)} per transaction. For this order, pay by card or EMI.</div>` : `
-          <p><strong>Pay with a UPI app</strong></p>
-          <div class="upi-apps">
-            <button class="opt sel" data-app="GPay">GPay</button><button class="opt" data-app="PhonePe">PhonePe</button>
-            <button class="opt" data-app="Paytm">Paytm</button><button class="opt" data-app="BHIM">BHIM</button>
-          </div>
-          <label style="font-weight:800">Or enter your UPI ID
-            <input class="field" id="upi" placeholder="name@okbank"><span class="err" data-for="upi"></span></label>
-          <p style="margin-top:10px;font-size:.9rem">You'll get a payment request on your UPI app. Approve it within 5 minutes.</p>`}
+          ${[["card","Credit / debit card"],["emi","EMI"],["nb","Net banking"]].map(([k,l])=>`<button class="tab ${k===pay0?"on":""}" data-tab="${k}">${l}</button>`).join("")}
         </div>
         <div id="pay-card" ${pay0!=="card"?"hidden":""}>
           <div class="card-preview">
@@ -761,7 +840,7 @@ function Checkout(){
           </div>
         </div>
         <div id="pay-emi" hidden>
-          ${t.total < EMI_MIN ? `<div class="cod-note">EMI is available on orders of ${rupee(EMI_MIN)} or more. For this order, pay by UPI, card or cash on delivery.</div>` : `
+          ${t.total < EMI_MIN ? `<div class="cod-note">EMI is available on orders of ${rupee(EMI_MIN)} or more. For this order, pay by card or net banking.</div>` : `
           <label style="font-weight:800">Credit card bank
             <select class="field" id="emiBank"><option value="">Choose your bank</option>
               <option>HDFC Bank</option><option>ICICI Bank</option><option>SBI Card</option><option>Axis Bank</option></select>
@@ -774,10 +853,12 @@ function Checkout(){
           </div>
           <p style="margin-top:10px;font-size:.9rem">You'll confirm the plan with an OTP from your bank.</p>`}
         </div>
-        <div id="pay-cod" hidden>
-          <div class="cod-note">${t.total > COD_LIMIT
-            ? `Cash on delivery is available on orders up to ${rupee(COD_LIMIT)}. For this order, pay by card or EMI.`
-            : `Pay in cash or by UPI when your order arrives. A ${rupee(COD_FEE)} handling fee applies to cash-on-delivery orders.`}</div>
+        <div id="pay-nb" hidden>
+          <label style="font-weight:800">Choose your bank
+            <select class="field" id="nbBank"><option value="">Select bank</option>
+              <option>State Bank of India</option><option>HDFC Bank</option><option>ICICI Bank</option><option>Axis Bank</option><option>Kotak Mahindra Bank</option></select>
+            <span class="err" data-for="nbBank"></span></label>
+          <p style="margin-top:10px;font-size:.9rem">You'll be taken to your bank's secure page to log in and approve the payment.</p>
         </div>
       </section>
     </div>
@@ -789,6 +870,89 @@ function Checkout(){
   </div>`;
 }
 
+const FAQS = [
+  ["Where is my order?", "Every order ships in 3 to 5 days. Your order ID and delivery date are on the confirmation page and in your email. Share the order ID with us for a live update."],
+  ["How do I return or exchange an item?", "Contact us within 7 days of delivery with your order ID. We pick the item up for free, then refund you or send the exchange. See our <a href='#/returns'>returns and exchange policy</a>."],
+  ["Which payment methods do you accept?", "Credit and debit cards, EMI for 3 to 24 months, and net banking. We don't offer UPI or cash on delivery because every order is above ₹1 lakh."],
+  ["Why do some items need a Sokovia Accords ID?", "Weapons and cosmic artifacts are restricted. We sell them only to registered heroes aged 18 or older, so we check the ID at checkout and at delivery."],
+  ["Is my card information safe?", "Yes. Payments go through your bank's secure system and we never store your card details."],
+  ["Is every product genuine?", "Yes. Every item ships with a numbered certificate of authenticity."]
+];
+function Help(){
+  return `
+  <h2>Customer service</h2>
+  <p style="margin:-10px 0 22px">We're here to help, 7 days a week. Pick whichever way suits you.</p>
+  <div class="help-cards">
+    <div class="panel"><h3>📞 Call us</h3><p><strong>1800-419-2026</strong> (toll-free)</p><small>Monday to Sunday, 9 am to 9 pm</small></div>
+    <div class="panel"><h3>✉️ Email us</h3><p><strong>support@multiversemart.in</strong></p><small>We reply within 24 hours</small></div>
+    <div class="panel"><h3>💬 Live chat</h3><p>Instant answers to common questions</p><button class="btn" id="chatOpen2" style="margin-top:8px">Start chat</button></div>
+  </div>
+  <div class="two-col" style="margin-top:34px">
+    <section class="panel form-panel">
+      <h3>Frequently asked questions</h3>
+      ${FAQS.map(([q,a])=>`<details class="faq"><summary>${q}</summary><p>${a}</p></details>`).join("")}
+    </section>
+    <section class="panel form-panel" id="ticketBox">
+      <h3>Send us a message</h3>
+      <div class="form-grid">
+        <label>Your name<input class="field" id="tkName" placeholder="Your name"><span class="err" data-for="tkName"></span></label>
+        <label>Email<input class="field" id="tkEmail" type="email" placeholder="you@example.com"><span class="err" data-for="tkEmail"></span></label>
+        <label>Order ID (if any)<input class="field" id="tkOrder" placeholder="#MM123456"></label>
+        <label>Topic<select class="field" id="tkTopic"><option>Order status</option><option>Return or exchange</option><option>Payment</option><option>Product question</option><option>Complaint</option><option>Other</option></select></label>
+        <label class="full">Message<textarea class="field" id="tkMsg" rows="4" placeholder="How can we help?"></textarea><span class="err" data-for="tkMsg"></span></label>
+      </div>
+      <button class="btn red" id="tkSend" style="margin-top:12px">Send message</button>
+    </section>
+  </div>
+  <p style="margin-top:18px;font-size:.85rem;opacity:.7">Contact details are for demonstration in this academic project.</p>`;
+}
+const BOT = {
+  track: "Your order ID is on the confirmation page and in your email. Orders arrive in 3 to 5 days. Share your order ID here or call 1800-419-2026 for a live update.",
+  return: "You can return or exchange any item within 7 days of delivery. We pick it up for free. Keep the certificate of authenticity with the item.",
+  pay: "We accept credit and debit cards, EMI for 3 to 24 months, and net banking.",
+  id: "Weapons and cosmic artifacts are 18+ items. You'll need a Sokovia Accords ID (format SA-123456) at checkout.",
+  agent: "Sure! Call us on 1800-419-2026 (9 am to 9 pm) or send a message from our Help page, and a team member will reply within 24 hours."
+};
+const BOTQ = { track:"Track my order", return:"Return or exchange", pay:"Payment options", id:"Hero ID check", agent:"Talk to a person" };
+function Returns(){
+  return `
+  <section class="panel form-panel policy">
+    <h1>Returns, exchange and authenticity</h1>
+    <p>We want every hero to be happy with their gear. If something isn't right, you can return it.</p>
+    <h3>7-day returns</h3>
+    <p>Return any item within 7 days of delivery, as long as it's unused and in its original packaging.</p>
+    <h3>How to return an item</h3>
+    <ol>
+      <li>Contact us with your order ID within 7 days of delivery.</li>
+      <li>We schedule a free pickup within 48 hours.</li>
+      <li>Our team checks the item when it reaches us.</li>
+      <li>Your refund is sent within 5 to 7 working days to the same payment method you used. For EMI orders, your bank cancels the remaining instalments.</li>
+    </ol>
+    <h3>Damaged or wrong item</h3>
+    <p>Tell us within 48 hours of delivery and share a photo. We'll send a replacement or give you a full refund.</p>
+    <h3>Exchange</h3>
+    <p>Within 7 days of delivery, you can exchange an item for a different size or for another product.</p>
+    <ul>
+      <li>Size exchanges on suits are free</li>
+      <li>If the new product costs more, you pay the difference. If it costs less, we refund the difference.</li>
+      <li>We pick up the old item and deliver the new one at the same time</li>
+      <li>One exchange per item</li>
+    </ul>
+    <h3>Certificate of authenticity</h3>
+    <p>Every item ships with a numbered certificate of authenticity that proves it is genuine. Keep it safe: returns and exchanges must include the certificate.</p>
+    <h3>18+ restricted items</h3>
+    <p>Weapons and cosmic artifacts are sold only to registered heroes aged 18 or older. We check the Sokovia Accords ID at checkout and again at delivery.</p>
+    <p><strong>Returning restricted items:</strong> our pickup team checks your Sokovia Accords ID again before collecting weapons or cosmic artifacts.</p>
+    <h3>Items we can't take back</h3>
+    <ul>
+      <li>Pym Particle vials that have been opened</li>
+      <li>Items damaged by misuse</li>
+      <li>Items returned after 7 days</li>
+      <li>Items returned without their certificate of authenticity</li>
+    </ul>
+    <a class="btn" href="#/shop" style="margin-top:18px">Back to shop</a>
+  </section>`;
+}
 function Success(){
   const o = state.lastOrder;
   if(!o) return `<div class="panel empty"><h2>No recent order</h2><a class="btn" href="#/shop">Start shopping</a></div>`;
@@ -804,13 +968,20 @@ function Success(){
       <p>Paid via <strong>${o.method}</strong> · Arriving by <strong>${o.eta}</strong></p>
       <p>Delivering to ${o.addr}</p>
       ${o.heroId ? `<p>Hero registration ${o.heroId} verified</p>` : ""}
+      <p>✅ A certificate of authenticity ships with each item</p>
       <ul class="track"><li class="done">Order placed</li><li>Packed</li><li>Shipped</li><li>Out for delivery</li><li>Delivered</li></ul>
       ${o.items.map(i=>`<div class="row"><span>${byId(i.id).name}${i.size?" ("+i.size+")":""} × ${i.qty}</span><span>${rupee(byId(i.id).price*i.qty)}</span></div>`).join("")}
       <div class="row total"><span>Total paid</span><span>${rupee(o.total)}</span></div>
     </div>
     <div class="panel form-panel" style="text-align:center">
       <span class="bubble">A confirmation has been sent to ${o.email}</span>
-      <p style="margin:26px 0 14px">Need more gear?</p>
+      <div id="fbBox" style="margin-top:26px">
+        <h3>How was your shopping experience?</h3>
+        <div class="fb-stars">${[1,2,3,4,5].map(n=>`<button class="opt" data-fb="${n}" aria-label="${n} stars">★</button>`).join("")}</div>
+        <textarea class="field" id="fbText" rows="3" placeholder="Tell us what we can do better (optional)"></textarea>
+        <button class="btn" id="fbSend" style="margin-top:12px">Send feedback</button>
+      </div>
+      <p style="margin:22px 0 12px">Need more gear?</p>
       <a class="btn" href="#/shop">Continue shopping</a>
     </div>
   </div>`;
@@ -819,7 +990,7 @@ function Success(){
 /* =========================================================
    5. CHECKOUT VALIDATION + PAYMENT SIMULATION
    ========================================================= */
-let payMethod = "upi", upiApp = "GPay";
+let payMethod = "card";
 const luhn = n => { let s=0, alt=false; for(let i=n.length-1;i>=0;i--){ let d=+n[i]; if(alt){d*=2; if(d>9)d-=9;} s+=d; alt=!alt; } return s%10===0; };
 function setErr(id,msg){
   const el = $("#"+id), e = document.querySelector(`[data-for="${id}"]`);
@@ -840,11 +1011,9 @@ function validate(){
     ok &= setErr("ageOk", $("#ageOk").checked ? "" : "Confirm you're 18+ and a registered hero");
   }
   const total = totals().total;
-  if(payMethod==="upi" && total > UPI_LIMIT){ toast(`UPI is capped at ${rupee(UPI_LIMIT)}. Choose card or EMI.`); ok = false; }
-  if(payMethod==="cod" && total > COD_LIMIT){ toast(`Cash on delivery is only for orders up to ${rupee(COD_LIMIT)}.`); ok = false; }
+  if(payMethod==="nb") ok &= setErr("nbBank", v("nbBank") ? "" : "Choose your bank");
   if(payMethod==="emi" && total < EMI_MIN){ toast(`EMI is only for orders of ${rupee(EMI_MIN)} or more.`); ok = false; }
   else if(payMethod==="emi") ok &= setErr("emiBank", v("emiBank") ? "" : "Choose the bank that issued your credit card");
-  if(payMethod==="upi" && v("upi")) ok &= setErr("upi", /^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test(v("upi")) ? "" : "Enter a valid UPI ID, like name@okbank");
   if(payMethod==="card"){
     const num = v("cardNum").replace(/\s/g,"");
     ok &= setErr("cardNum", num.length>=13 && luhn(num) ? "" : "Card number is invalid. Check the digits");
@@ -859,9 +1028,8 @@ function validate(){
 function placeOrder(){
   if(!validate()){ if(document.querySelector(".bad")){ toast("Fix the highlighted fields to continue"); document.querySelector(".bad").focus(); } return; }
   const plan = EMI_PLANS[+(document.querySelector('input[name="emi"]:checked')?.value || 0)];
-  const msg = payMethod==="upi" ? `Waiting for you to approve the request on ${ $("#upi").value.trim() ? "your UPI app" : upiApp }…`
-            : payMethod==="card" ? "Verifying your card with the bank…"
-            : payMethod==="emi" ? `Sending your EMI request to ${$("#emiBank").value}…` : "Confirming your order…";
+  const msg = payMethod==="card" ? "Verifying your card with the bank…"
+            : payMethod==="emi" ? `Sending your EMI request to ${$("#emiBank").value}…` : `Taking you to ${$("#nbBank").value} to approve the payment…`;
   const ov = document.createElement("div");
   ov.className = "overlay";
   ov.innerHTML = `<div class="panel"><div class="spinner"></div><h3 style="font-size:1.8rem">Processing payment</h3><p>${msg}</p><p><small>Don't close or refresh this page.</small></p></div>`;
@@ -872,10 +1040,10 @@ function placeOrder(){
       id: "#MM" + Math.floor(100000 + Math.random()*900000),
       name: $("#name").value.trim().split(" ")[0], email: $("#email").value.trim(),
       addr: `${$("#addr").value.trim()}, ${$("#city").value.trim()} ${$("#pin").value.trim()}`,
-      method: payMethod==="upi" ? "UPI" : payMethod==="card" ? "Card ending " + $("#cardNum").value.replace(/\s/g,"").slice(-4)
-            : payMethod==="emi" ? `EMI with ${$("#emiBank").value}, ${plan.months} months at ${rupee(emiMonthly(t.total,plan))}/month` : "Cash on delivery",
+      method: payMethod==="card" ? "Card ending " + $("#cardNum").value.replace(/\s/g,"").slice(-4)
+            : payMethod==="emi" ? `EMI with ${$("#emiBank").value}, ${plan.months} months at ${rupee(emiMonthly(t.total,plan))}/month` : `Net banking (${$("#nbBank").value})`,
       heroId: needsHeroId() ? $("#accordsId").value.trim().toUpperCase() : "",
-      total: t.total + (payMethod==="cod" ? COD_FEE : 0),
+      total: t.total,
       eta: eta.toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"}),
       items: state.cart.map(i=>({...i}))
     };
@@ -898,10 +1066,12 @@ function router(){
   else if(parts[0]==="cart"){ app.innerHTML = Cart(); page="cart"; }
   else if(parts[0]==="checkout"){ app.innerHTML = Checkout(); page="cart"; }
   else if(parts[0]==="success"){ app.innerHTML = Success(); page="cart"; }
+  else if(parts[0]==="returns"){ app.innerHTML = Returns(); page="returns"; }
+  else if(parts[0]==="help"){ app.innerHTML = Help(); page="help"; }
   else app.innerHTML = Home();
   document.querySelectorAll("[data-nav]").forEach(a=>a.classList.toggle("active", a.dataset.nav===page));
   window.scrollTo(0,0);
-  pdpQty = 1; payMethod = totals().total > UPI_LIMIT ? "card" : "upi"; upiApp = "GPay";
+  pdpQty = 1; payMethod = "card";
 }
 let pdpQty = 1;
 
@@ -918,9 +1088,10 @@ document.addEventListener("click", e => {
   if(d.size){ document.querySelectorAll("#sizes .opt").forEach(b=>b.classList.toggle("sel", b===e.target)); }
   if(d.tab){ payMethod = d.tab;
     document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("on", b.dataset.tab===d.tab));
-    ["upi","card","emi","cod"].forEach(m=> $("#pay-"+m).hidden = m!==d.tab);
+    ["card","emi","nb"].forEach(m=> $("#pay-"+m).hidden = m!==d.tab);
     updatePayBtn(); }
-  if(d.app){ upiApp = d.app; document.querySelectorAll("[data-app]").forEach(b=>b.classList.toggle("sel", b===e.target)); }
+  if(d.cat){ document.querySelectorAll(".cat-tabs .opt").forEach(b=>b.classList.toggle("sel", b.dataset.cat===d.cat)); filterShop(); }
+  if(d.fb){ document.querySelectorAll("[data-fb]").forEach(b=>b.classList.toggle("sel", +b.dataset.fb <= +d.fb)); $("#fbSend").dataset.rating = d.fb; }
   const id = e.target.id;
   if(id==="qPlus"||id==="qMinus"){ pdpQty = Math.max(1, Math.min(10, pdpQty + (id==="qPlus"?1:-1))); $("#qVal").textContent = pdpQty; }
   if(id==="pdpAdd"||id==="pdpBuy"){
@@ -929,16 +1100,43 @@ document.addEventListener("click", e => {
     if(id==="pdpBuy") location.hash = "#/checkout"; else { burst(e); toast(`Added ${pdpQty} to cart`); }
   }
   if(id==="placeOrder") placeOrder();
+  if(id==="chatOpen"||id==="chatOpen2"){ $("#chatBox").hidden = false; $("#chatOpen").hidden = true; }
+  if(id==="chatClose"){ $("#chatBox").hidden = true; $("#chatOpen").hidden = false; }
+  if(d.q){ const log = $("#chatLog");
+    log.insertAdjacentHTML("beforeend", `<div class="msg you">${BOTQ[d.q]}</div><div class="msg bot">${BOT[d.q]}</div>`);
+    log.scrollTop = log.scrollHeight; }
+  if(id==="tkSend"){
+    const v = x => $("#"+x).value.trim(); let ok = true;
+    ok &= setErr("tkName", v("tkName").length<2 ? "Enter your name" : "");
+    ok &= setErr("tkEmail", /^\S+@\S+\.\S+$/.test(v("tkEmail")) ? "" : "Enter a valid email address");
+    ok &= setErr("tkMsg", v("tkMsg").length<10 ? "Tell us a little more (at least 10 characters)" : "");
+    if(ok){ const tk = "#TK" + Math.floor(100000 + Math.random()*900000);
+      $("#ticketBox").innerHTML = `<h3>Message sent</h3><p>Thanks, ${v("tkName").split(" ")[0]}. Your ticket number is <strong>${tk}</strong>.</p><p>Our team will reply to ${v("tkEmail")} within 24 hours.</p>`; }
+  }
+  if(id==="ageYes"){ $("#ageGate").hidden = true; try{ sessionStorage.setItem("age18","yes"); }catch(err){} }
+  if(id==="ageNo"){ $("#ageGate .panel").innerHTML = `<h3 style="font-size:2rem">Sorry!</h3><p>You must be 18 or older to shop at Multiverse Mart.</p>`; }
+  if(id==="revSubmit"){
+    const pid = +location.hash.split("/")[2], n = $("#revName").value.trim(), t = $("#revText").value.trim();
+    if(n.length<2 || t.length<5){ toast("Add your name and a short review"); return; }
+    (state.reviews[pid] = state.reviews[pid] || []).unshift([n, +$("#revRating").value, t]);
+    $("#revList").innerHTML = reviewList(byId(pid)); $("#revName").value = $("#revText").value = "";
+    toast("Thanks for your review!");
+  }
+  if(id==="fbSend"){
+    const r = +e.target.dataset.rating || 0;
+    if(!r){ toast("Tap a star to rate your experience"); return; }
+    state.feedback.push({rating:r, text:$("#fbText").value.trim()});
+    $("#fbBox").innerHTML = `<h3>Thank you!</h3><p>Your feedback helps us improve Multiverse Mart.</p>`;
+  }
 });
 
 function updatePayBtn(){
   const t = totals(), b = $("#placeOrder"); if(!b) return;
   const plan = EMI_PLANS[+(document.querySelector('input[name="emi"]:checked')?.value || 0)];
-  b.textContent = payMethod==="cod" ? `Place order (${rupee(t.total+COD_FEE)})`
-                : payMethod==="emi" ? `Pay ${rupee(emiMonthly(t.total,plan))}/month` : `Pay ${rupee(t.total)}`;
+  b.textContent = payMethod==="emi" ? `Pay ${rupee(emiMonthly(t.total,plan))}/month` : `Pay ${rupee(t.total)}`;
 }
 document.addEventListener("input", e => {
-  if(["search","heroSel","sort"].includes(e.target.id) || e.target.name==="cat" || e.target.name==="band") filterShop();
+  if(["search","heroSel","sort","hide18"].includes(e.target.id) || e.target.name==="cat" || e.target.name==="band") filterShop();
   if(e.target.name==="emi") updatePayBtn();
   const id = e.target.id;
   if(id==="cardNum"){
@@ -955,11 +1153,11 @@ document.addEventListener("input", e => {
   }
 });
 document.addEventListener("change", e => {
-  if(e.target.name==="cat"||e.target.name==="band"||e.target.id==="heroSel"||e.target.id==="sort") filterShop();
   if(e.target.name==="emi") updatePayBtn();
 });
 
 window.addEventListener("hashchange", router);
+try{ if(sessionStorage.getItem("age18")!=="yes") $("#ageGate").hidden = false; }catch(err){ $("#ageGate").hidden = false; }
 router();
 </script>
 </body>
