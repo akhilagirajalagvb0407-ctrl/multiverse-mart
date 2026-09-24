@@ -232,6 +232,9 @@ textarea.field{font-family:inherit;resize:vertical}
 .badge18{position:absolute;top:10px;right:10px;background:var(--red);color:#fff;font-weight:800;font-size:.8rem;padding:3px 8px;border:2px solid var(--ink);z-index:2}
 .cert{padding:10px 14px;border:3px dashed var(--ink);background:var(--white);font-weight:800;margin:4px 0 18px}
 .overlay[hidden]{display:none}
+.delivery{padding:12px 14px;border:3px solid var(--ink);background:var(--white);margin-top:18px;line-height:1.5}
+.age-note{margin-top:12px;padding:10px 12px;border:3px solid var(--ink);background:var(--yellow);font-weight:800;font-size:.9rem}
+.check.adult{background:var(--white);border:3px solid var(--ink);padding:10px 12px;margin-top:16px}
 .help-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
 .help-cards .panel{padding:18px}
 .help-cards h3{margin-bottom:6px}
@@ -343,7 +346,7 @@ footer .logo{font-size:1.6rem;display:inline-block;margin-bottom:8px}
     </div>
     <div>
       <p><a href="#/returns" style="color:var(--yellow)">Returns, exchange and authenticity</a></p>
-      <p>Free delivery · 7-day returns · Secure payments</p>
+      <p>Free delivery in 3–5 business days · 7-day returns · Secure payments</p>
       <p>Weapons and cosmic artifacts ship only to registered heroes</p>
       <p><a href="#/help" style="color:var(--yellow)">Customer service</a> · 1800-419-2026 (toll-free)</p>
       <p style="opacity:.6;margin-top:8px">Academic e-commerce project by Group Spidey. Not affiliated with any studio or brand.</p>
@@ -534,7 +537,16 @@ function art(p){
 const state = { cart: [], lastOrder: null, reviews: {}, feedback: [] };
 /* No discounts: customers pay the listed price. Payment by card, EMI or net banking,
    because UPI (₹1 lakh cap) and cash on delivery can't handle orders this size */
-const EMI_MIN = 3000;        // banks offer EMI only above a minimum order value
+const EMI_MIN = 3000;
+/* Delivery in business days (Monday to Friday). Vehicles need special transport, so they take longer */
+const deliveryDays = p => p.cat==="Vehicles" ? [7,10] : [3,5];
+function addBusinessDays(date, n){
+  const d = new Date(date);
+  while(n > 0){ d.setDate(d.getDate() + 1); if(d.getDay()!==0 && d.getDay()!==6) n--; }
+  return d;
+}
+const fmtDate = d => d.toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"});
+const cartDays = () => state.cart.reduce((m,i)=> Math.max(m, deliveryDays(byId(i.id))[1]), 0);        // banks offer EMI only above a minimum order value
 const EMI_PLANS = [ {months:3, rate:0}, {months:6, rate:0}, {months:12, rate:0.14}, {months:24, rate:0.14} ];
 /* Weapons and cosmic artifacts are restricted: buyer must be a registered hero, 18+ */
 const RESTRICTED = ["Shields & Weapons", "Cosmic Artifacts"];
@@ -622,7 +634,7 @@ function Home(){
     <div class="panel"><strong>✅ Certificate of authenticity</strong><small>Numbered certificate with every item</small></div>
     <div class="panel"><strong>↩ 7-day returns &amp; exchange</strong><small>Free pickup from your door</small></div>
     <div class="panel"><strong>🔞 18+ for restricted items</strong><small>Hero ID checked at checkout</small></div>
-    <div class="panel"><strong>🚚 Free delivery</strong><small>On every order, in 3–5 days</small></div>
+    <div class="panel"><strong>🚚 Free delivery</strong><small>On every order, in 3–5 business days</small></div>
   </div>
 
   <h2>Shop by category</h2>
@@ -737,7 +749,9 @@ function Product(id){
         <button class="btn" id="pdpAdd">Add to cart</button>
         <button class="btn red" id="pdpBuy">Buy now</button>
       </div>
-      <p style="margin-top:16px;font-size:.9rem">🚚 Free delivery in 3–5 days · ↩ <a href="#/returns">7-day returns &amp; exchange</a> · 🔒 Secure checkout</p>
+      <div class="delivery">🚚 <strong>Free delivery in ${deliveryDays(p)[0]}–${deliveryDays(p)[1]} business days</strong> (Monday to Friday)<br>
+        Order today and get it by <strong>${fmtDate(addBusinessDays(new Date(), deliveryDays(p)[1]))}</strong></div>
+      <p style="margin-top:12px;font-size:.9rem">↩ <a href="#/returns">7-day returns &amp; exchange</a> · 🔒 Secure checkout</p>
     </div>
   </div>
   <section class="panel form-panel" style="margin-top:40px">
@@ -784,8 +798,11 @@ function Summary(t, withCoupon){
     <h3 style="font-size:1.8rem;margin-bottom:10px">Order summary</h3>
     <div class="row"><span>Subtotal</span><span>${rupee(t.subtotal)}</span></div>
     <div class="row"><span>Delivery</span><span>Free</span></div>
+    <div class="row"><span>Estimated delivery</span><span>${fmtDate(addBusinessDays(new Date(), cartDays()))}</span></div>
+    <small>Within ${cartDays()} business days (Monday to Friday)</small>
     <div class="row total"><span>Total</span><span>${rupee(t.total)}</span></div>
     <small>Inclusive of all taxes</small>
+    <div class="age-note">🔞 18+ only: you must be 18 or older to place an order${needsHeroId() ? ". Your cart has restricted items, so you'll also need your Sokovia Accords ID." : "."}</div>
     ${withCoupon ? `
       <a class="btn red" href="#/checkout" style="width:100%;text-align:center;margin-top:14px">Proceed to checkout</a>` : ""}
   </aside>`;
@@ -798,6 +815,7 @@ function Checkout(){
     <input class="field" id="${id}" type="${type}" placeholder="${ph}"><span class="err" data-for="${id}"></span></label>`;
   return `
   <ol class="steps"><li class="done">Cart</li><li class="now">Address &amp; payment</li><li>Confirmation</li></ol>
+  <div class="restricted" style="margin-bottom:22px">🔞 Adults only. Multiverse Mart sells weapons and restricted artifacts, so every buyer must be 18 or older.</div>
   <div class="two-col">
     <div>
       <section class="form-panel panel">
@@ -818,7 +836,7 @@ function Checkout(){
           ${f("heroAlias","Registered hero name","Spider-Man")}
           ${f("accordsId","Sokovia Accords ID","SA-104729")}
         </div>
-        <label class="check"><input type="checkbox" id="ageOk"> I confirm I'm 18 or older and registered under the Sokovia Accords</label>
+        <label class="check"><input type="checkbox" id="ageOk"> I confirm I'm registered under the Sokovia Accords</label>
         <span class="err" data-for="ageOk"></span>
       </section>` : ""}
       <section class="form-panel panel">
@@ -864,14 +882,16 @@ function Checkout(){
     </div>
     <div class="pay-col">
       ${Summary(t,false)}
-      <button class="btn red" id="placeOrder" style="width:100%;margin-top:18px">Pay ${rupee(t.total)}</button>
+      <label class="check adult"><input type="checkbox" id="adultOk"> 🔞 I confirm I am 18 years or older</label>
+      <span class="err" data-for="adultOk"></span>
+      <button class="btn red" id="placeOrder" style="width:100%;margin-top:14px">Pay ${rupee(t.total)}</button>
       <p style="margin-top:10px;font-size:.85rem">Your payment is processed securely. We never store your card details.</p>
     </div>
   </div>`;
 }
 
 const FAQS = [
-  ["Where is my order?", "Every order ships in 3 to 5 days. Your order ID and delivery date are on the confirmation page and in your email. Share the order ID with us for a live update."],
+  ["Where is my order?", "Orders arrive in 3 to 5 business days (Monday to Friday), and vehicles in 7 to 10 business days. Your order ID and delivery date are on the confirmation page and in your email. Share the order ID with us for a live update."],
   ["How do I return or exchange an item?", "Contact us within 7 days of delivery with your order ID. We pick the item up for free, then refund you or send the exchange. See our <a href='#/returns'>returns and exchange policy</a>."],
   ["Which payment methods do you accept?", "Credit and debit cards, EMI for 3 to 24 months, and net banking. We don't offer UPI or cash on delivery because every order is above ₹1 lakh."],
   ["Why do some items need a Sokovia Accords ID?", "Weapons and cosmic artifacts are restricted. We sell them only to registered heroes aged 18 or older, so we check the ID at checkout and at delivery."],
@@ -907,7 +927,7 @@ function Help(){
   <p style="margin-top:18px;font-size:.85rem;opacity:.7">Contact details are for demonstration in this academic project.</p>`;
 }
 const BOT = {
-  track: "Your order ID is on the confirmation page and in your email. Orders arrive in 3 to 5 days. Share your order ID here or call 1800-419-2026 for a live update.",
+  track: "Your order ID is on the confirmation page and in your email. Orders arrive in 3 to 5 business days, and vehicles in 7 to 10. Share your order ID here or call 1800-419-2026 for a live update.",
   return: "You can return or exchange any item within 7 days of delivery. We pick it up for free. Keep the certificate of authenticity with the item.",
   pay: "We accept credit and debit cards, EMI for 3 to 24 months, and net banking.",
   id: "Weapons and cosmic artifacts are 18+ items. You'll need a Sokovia Accords ID (format SA-123456) at checkout.",
@@ -928,6 +948,8 @@ function Returns(){
       <li>Our team checks the item when it reaches us.</li>
       <li>Your refund is sent within 5 to 7 working days to the same payment method you used. For EMI orders, your bank cancels the remaining instalments.</li>
     </ol>
+    <h3>Delivery times</h3>
+    <p>Delivery is free. Most items arrive in 3 to 5 business days, and vehicles in 7 to 10 business days because they need special transport. Business days are Monday to Friday, excluding public holidays.</p>
     <h3>Damaged or wrong item</h3>
     <p>Tell us within 48 hours of delivery and share a photo. We'll send a replacement or give you a full refund.</p>
     <h3>Exchange</h3>
@@ -965,7 +987,7 @@ function Success(){
   <div class="two-col">
     <div class="panel form-panel">
       <h3>Order ${o.id}</h3>
-      <p>Paid via <strong>${o.method}</strong> · Arriving by <strong>${o.eta}</strong></p>
+      <p>Paid via <strong>${o.method}</strong> · Arriving by <strong>${o.eta}</strong> (business days, Monday to Friday)</p>
       <p>Delivering to ${o.addr}</p>
       ${o.heroId ? `<p>Hero registration ${o.heroId} verified</p>` : ""}
       <p>✅ A certificate of authenticity ships with each item</p>
@@ -1005,10 +1027,11 @@ function validate(){
   ok &= setErr("addr", v("addr").length<8 ? "Enter your full address" : "");
   ok &= setErr("city", v("city").length<2 ? "Enter your city" : "");
   ok &= setErr("pin", /^[1-9]\d{5}$/.test(v("pin")) ? "" : "Enter a valid 6-digit PIN code");
+  ok &= setErr("adultOk", $("#adultOk").checked ? "" : "You must be 18 or older to place an order");
   if(needsHeroId()){
     ok &= setErr("heroAlias", v("heroAlias").length<2 ? "Enter your registered hero name" : "");
     ok &= setErr("accordsId", /^SA-\d{6}$/i.test(v("accordsId")) ? "" : "Enter your Accords ID as SA- followed by 6 digits");
-    ok &= setErr("ageOk", $("#ageOk").checked ? "" : "Confirm you're 18+ and a registered hero");
+    ok &= setErr("ageOk", $("#ageOk").checked ? "" : "Confirm you're a registered hero");
   }
   const total = totals().total;
   if(payMethod==="nb") ok &= setErr("nbBank", v("nbBank") ? "" : "Choose your bank");
@@ -1035,7 +1058,7 @@ function placeOrder(){
   ov.innerHTML = `<div class="panel"><div class="spinner"></div><h3 style="font-size:1.8rem">Processing payment</h3><p>${msg}</p><p><small>Don't close or refresh this page.</small></p></div>`;
   document.body.appendChild(ov);
   setTimeout(()=>{
-    const t = totals(), eta = new Date(Date.now() + 4*864e5);
+    const t = totals(), eta = addBusinessDays(new Date(), cartDays());
     state.lastOrder = {
       id: "#MM" + Math.floor(100000 + Math.random()*900000),
       name: $("#name").value.trim().split(" ")[0], email: $("#email").value.trim(),
